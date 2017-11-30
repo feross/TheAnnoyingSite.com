@@ -1,0 +1,27 @@
+{
+  "name": "most-annoying-site",
+  "description": "",
+  "version": "1.0.0",
+  "author": {
+    "name": "Feross Aboukhadijeh",
+    "email": "feross@feross.org",
+    "url": "https://feross.org"
+  },
+  "bugs": {
+    "url": "https://github.com/feross/most-annoying-site/issues"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "standard": "*"
+  },
+  "license": "MIT",
+  "main": "index.js",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/feross/most-annoying-site.git"
+  },
+  "scripts": {
+    "test": "standard"
+  }
+}
