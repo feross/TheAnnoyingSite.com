@@ -11,6 +11,7 @@
 
 <script>
   // Define some constants
+  const HTML = document.body.outerHTML
   const SCREEN_WIDTH = window.screen.availWidth
   const SCREEN_HEIGHT = window.screen.availHeight
   const WINDOW_WIDTH = 360
@@ -70,7 +71,7 @@
     const y = MARGIN + Math.floor(Math.random() * (SCREEN_HEIGHT - WINDOW_HEIGHT - MARGIN))
     const win = window.open('', '', `width=${WINDOW_WIDTH},height=${WINDOW_HEIGHT},left=${x},top=${y}`)
 
-    win.document.write(`<html>${document.body.outerHTML}</html>`)
+    win.document.write(`<html>${HTML}</html>`)
     wins.push(win)
   }
 

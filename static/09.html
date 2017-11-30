@@ -7,10 +7,11 @@
 <style>
   html, body { width: 100%; margin: 0; }
   video { width: 100%; height: 100%; }
-  iframe { width: 100%; height: 30%; }
+  iframe { width: 100%; height: 50%; }
 </style>
 
 <script>
+  const HTML = document.body.outerHTML
   const SCREEN_WIDTH = window.screen.availWidth
   const SCREEN_HEIGHT = window.screen.availHeight
   const WINDOW_WIDTH = 360
@@ -139,7 +140,7 @@
     if (wins.length === 1) {
       setupSearchWindow(win)
     } else {
-      win.document.write(`<html>${document.body.outerHTML}</html>`)
+      win.document.write(`<html>${HTML}</html>`)
     }
 
     wins.push(win)
@@ -167,7 +168,7 @@
         clearInterval(interval)
         win.window.location = 'about:blank'
         setTimeout(() => {
-          win.document.write(`<html>${document.body.outerHTML}</html>`)
+          win.document.write(`<html>${HTML}</html>`)
         }, 100)
         return
       }

