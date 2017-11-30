@@ -5,46 +5,51 @@
 <body>
 
 <style>
-  body { html, body { width: 100% } }
+  html, body { width: 100%; margin: 0; }
+  video { width: 100%; height: 100%; }
 </style>
 
 <script>
+  // Define some constants
   const SCREEN_WIDTH = window.screen.availWidth
   const SCREEN_HEIGHT = window.screen.availHeight
-  const WINDOW_WIDTH = 200
+  const WINDOW_WIDTH = 360
   const WINDOW_HEIGHT = 200
   const VELOCITY = 15
-  const MARGIN = 10
+  const MARGIN = 20
   const TICK_LENGTH = 50
 
   if (window.opener) {
     // *** RUNS IN CHILD WINDOW: ***
 
+    // How much to move the window by on each tick
     let vx = VELOCITY * (Math.random() > 0.5 ? 1 : -1)
     let vy = VELOCITY * (Math.random() > 0.5 ? 1 : -1)
 
     window.setInterval(() => {
+      // Current position and size of the window
       const x = window.screenX
       const y = window.screenY
       const width = window.outerWidth
       const height = window.outerHeight
 
+      // Detect edges (with some margin) and invert the direction
       if (x < MARGIN) vx = Math.abs(vx)
       if (x + width > SCREEN_WIDTH - MARGIN) vx = -1 * Math.abs(vx)
       if (y < MARGIN) vy = Math.abs(vy)
       if (y + height > SCREEN_HEIGHT - MARGIN) vy = -1 * Math.abs(vy)
 
+      // Notice that we changed moveTo() to moveBy()
       window.moveBy(vx, vy)
     }, TICK_LENGTH)
 
-    let timeout = null
-    document.addEventListener('mousemove', () => {
-      clearTimeout(timeout)
-      document.body.style.backgroundColor = 'green'
-      timeout = setTimeout(() => {
-        document.body.style.backgroundColor = ''
-      }, 500)
-    })
+    // Pick a video to play in each child window
+    const VIDEOS = ['nyan.mp4', 'cat.mp4', 'trolol.mp4']
+    const video = document.createElement('video')
+    video.src = VIDEOS[Math.floor(Math.random() * VIDEOS.length)]
+    video.autoplay = true
+
+    document.body.appendChild(video)
 
     window.onunload = () => {
       if (!window.opener.closed) window.opener.onCloseWindow(window)
@@ -60,10 +65,11 @@
   function openWindow () {
     focusWindows()
 
+    // Start the window at a random location on screen
     const x = MARGIN + Math.floor(Math.random() * (SCREEN_WIDTH - WINDOW_WIDTH - MARGIN))
     const y = MARGIN + Math.floor(Math.random() * (SCREEN_HEIGHT - WINDOW_HEIGHT - MARGIN))
+    const win = window.open('', '', `width=${WINDOW_WIDTH},height=${WINDOW_HEIGHT},left=${x},top=${y}`)
 
-    const win = window.open('', '', `width=${WINDOW_WIDTH},height=${WINDOW_HEIGHT},left=${x},top=${y},location,titlebar`)
     win.document.write(`<html>${document.body.outerHTML}</html>`)
     wins.push(win)
   }
