@@ -1,0 +1,33 @@
+<!--
+  Same as before, but support multiple windows.
+-->
+
+<script>
+  // Track created windows in an array
+  let wins = []
+
+  document.addEventListener('click', openWindow)
+
+  function openWindow () {
+    const win = window.open('', '', 'width=100,height=100,left=0,top=0')
+
+    // Push new windows into the array
+    wins.push(win)
+  }
+
+  let i = 0
+  setInterval(() => {
+    if (wins.length === 0) return
+
+    // Every tick, move each window. Ignore closed windows.
+    wins
+    .filter(win => !win.closed)
+    .forEach((win, j) => {
+      win.moveTo(i + (j * 100), i + (j * 100))
+    })
+
+    i += 5
+    i = i % 200
+  }, 100)
+
+</script>

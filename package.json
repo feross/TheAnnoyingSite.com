@@ -12,7 +12,10 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "standard": "*"
+    "browserify": "^14.5.0",
+    "ecstatic": "^3.0.0",
+    "standard": "*",
+    "watchify": "^3.9.0"
   },
   "license": "MIT",
   "main": "index.js",
@@ -22,6 +25,11 @@
     "url": "git://github.com/feross/most-annoying-site.git"
   },
   "scripts": {
-    "test": "standard"
+    "build": "browserify src > static/bundle.js",
+    "serve": "ecstatic --port 4000 static",
+    "start": "npm run build && npm run serve",
+    "test": "standard",
+    "watch-js": "watchify src -o static/bundle.js -dv",
+    "watch": "npm run watch-js & npm run serve"
   }
 }

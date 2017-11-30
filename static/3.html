@@ -1,0 +1,36 @@
+<!--
+  Same as before, but focus all the opened windows.
+-->
+
+<script>
+  let wins = []
+
+  document.addEventListener('click', openWindow)
+
+  // Focus all created windows
+  function focusWindows () {
+    wins.forEach(win => win.focus())
+  }
+
+  function openWindow () {
+    // Focus must happen in a user-initiated event handler
+    focusWindows()
+
+    const win = window.open('', '', 'width=100,height=100,left=0,top=0')
+    wins.push(win)
+  }
+
+  let i = 0
+  setInterval(() => {
+    if (wins.length === 0) return
+
+    wins
+    .filter(win => !win.closed)
+    .forEach((win, j) => {
+      win.moveTo(i + (j * 100), i + (j * 100))
+    })
+    i += 5
+    i = i % 200
+  }, 100)
+
+</script>
