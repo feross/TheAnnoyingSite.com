@@ -11,13 +11,12 @@
 
 <script>
   // Define some constants
-  const HTML = document.body.outerHTML
   const SCREEN_WIDTH = window.screen.availWidth
   const SCREEN_HEIGHT = window.screen.availHeight
   const WINDOW_WIDTH = 360
   const WINDOW_HEIGHT = 200
   const VELOCITY = 15
-  const MARGIN = 20
+  const MARGIN = 10
   const TICK_LENGTH = 50
 
   if (window.opener) {
@@ -37,7 +36,7 @@
       // Detect edges (with some margin) and invert the direction
       if (x < MARGIN) vx = Math.abs(vx)
       if (x + width > SCREEN_WIDTH - MARGIN) vx = -1 * Math.abs(vx)
-      if (y < MARGIN) vy = Math.abs(vy)
+      if (y < MARGIN + 20) vy = Math.abs(vy)
       if (y + height > SCREEN_HEIGHT - MARGIN) vy = -1 * Math.abs(vy)
 
       // Notice that we changed moveTo() to moveBy()
@@ -49,6 +48,7 @@
     const video = document.createElement('video')
     video.src = VIDEOS[Math.floor(Math.random() * VIDEOS.length)]
     video.autoplay = true
+    video.loop = true
 
     document.body.appendChild(video)
 
@@ -69,9 +69,7 @@
     // Start the window at a random location on screen
     const x = MARGIN + Math.floor(Math.random() * (SCREEN_WIDTH - WINDOW_WIDTH - MARGIN))
     const y = MARGIN + Math.floor(Math.random() * (SCREEN_HEIGHT - WINDOW_HEIGHT - MARGIN))
-    const win = window.open('', '', `width=${WINDOW_WIDTH},height=${WINDOW_HEIGHT},left=${x},top=${y}`)
-
-    win.document.write(`<html>${HTML}</html>`)
+    const win = window.open(window.location.pathname, '', `width=${WINDOW_WIDTH},height=${WINDOW_HEIGHT},left=${x},top=${y}`)
     wins.push(win)
   }
 

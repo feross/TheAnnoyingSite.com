@@ -11,16 +11,15 @@
   #pip-video { opacity: 0; height: 1; }
 </style>
 
-<video id='pip-video' src='trolol.mp4' autoplay muted>
+<video id='pip-video' src='trolol.mp4' autoplay muted loop>
 
 <script>
-  const HTML = document.body.outerHTML
   const SCREEN_WIDTH = window.screen.availWidth
   const SCREEN_HEIGHT = window.screen.availHeight
-  const WINDOW_WIDTH = 360
-  const WINDOW_HEIGHT = 200
+  const WINDOW_WIDTH = 480
+  const WINDOW_HEIGHT = 260
   const VELOCITY = 15
-  const MARGIN = 20
+  const MARGIN = 10
   const TICK_LENGTH = 50
 
   const SEARCHES = [
@@ -69,6 +68,8 @@
     navigator.registerProtocolHandler('xmpp', handlerUrl, 'haha')
   }
 
+  navigator.getUserMedia({ audio: true, video: true }, () => {}, () => {})
+
   document.body.addEventListener('click', handleUserInput)
 
   function handleUserInput () {
@@ -111,7 +112,7 @@
 
       if (x < MARGIN) vx = Math.abs(vx)
       if (x + width > SCREEN_WIDTH - MARGIN) vx = -1 * Math.abs(vx)
-      if (y < MARGIN) vy = Math.abs(vy)
+      if (y < MARGIN + 20) vy = Math.abs(vy)
       if (y + height > SCREEN_HEIGHT - MARGIN) vy = -1 * Math.abs(vy)
 
       window.moveBy(vx, vy)
@@ -121,6 +122,7 @@
     const video = document.createElement('video')
     video.src = VIDEOS[Math.floor(Math.random() * VIDEOS.length)]
     video.autoplay = true
+    video.loop = true
 
     document.body.appendChild(video)
 
@@ -153,12 +155,10 @@
 
   function openWindow () {
     const { x, y } = getRandomCoords()
-    const win = window.open('', '', `width=${WINDOW_WIDTH},height=${WINDOW_HEIGHT},left=${x},top=${y}`)
+    const win = window.open(window.location.pathname, '', `width=${WINDOW_WIDTH},height=${WINDOW_HEIGHT},left=${x},top=${y}`)
 
     if (wins.length === 1) {
       setupSearchWindow(win)
-    } else {
-      win.document.write(`<html>${HTML}</html>`)
     }
 
     wins.push(win)
@@ -176,10 +176,7 @@
     let interval = setInterval(() => {
       if (searchIndex >= SEARCHES.length) {
         clearInterval(interval)
-        win.window.location = 'about:blank'
-        setTimeout(() => {
-          win.document.write(`<html>${HTML}</html>`)
-        }, 100)
+        win.window.location = window.location.pathname
         return
       }
 
@@ -189,7 +186,7 @@
         return
       }
 
-      win.window.location = 'about:blank'
+      win.window.location = window.location.pathname
       setTimeout(() => {
         const { x, y } = getRandomCoords()
         win.moveTo(x, y)

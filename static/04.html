@@ -7,9 +7,6 @@
 <body>
 
 <script>
-  // Save the html as it exists when the page is first rendered
-  const html = document.body.outerHTML
-
   if (window.opener) {
     // *** RUNS IN CHILD WINDOW: ***
 
@@ -43,11 +40,7 @@
 
   function openWindow () {
     focusWindows()
-    const win = window.open('', '', 'width=100,height=100,left=0,top=0')
-
-    // Write HTML into the child window
-    win.document.write(`<html>${html}</html>`)
-
+    const win = window.open(window.location.pathname, '', 'width=100,height=100,left=0,top=0')
     wins.push(win)
   }
 
