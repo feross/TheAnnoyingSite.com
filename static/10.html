@@ -165,6 +165,7 @@
   }
 
   function setupSearchWindow (win) {
+    if (!win) return
     win.window.location = 'http://www.bing.com/search?q=' + encodeURIComponent(SEARCHES[0])
     let searchIndex = 1
     let interval = setInterval(() => {

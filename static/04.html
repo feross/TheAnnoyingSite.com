@@ -14,11 +14,11 @@
     let timeout = null
 
     document.addEventListener('mousemove', () => {
-      // Cancel previous timer
-      clearTimeout(timeout)
-
       // Set background color to green
       document.body.style.backgroundColor = 'green'
+
+      // Cancel previous timer
+      clearTimeout(timeout)
 
       // If no more mousemoves in 500ms, then reset background color
       timeout = setTimeout(() => {

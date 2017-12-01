@@ -156,12 +156,16 @@
   // Moving the Bing searches from an iframe to a top-level window ensures that the
   // searches will show up in the browser history as a visited page.
   function setupSearchWindow (win) {
+    // Popup was blocked
+    if (!win) return
+
     // Notice that this window cannot navigate itself since it's on an other origin
     // and we can't run JS inside the window.
     win.window.location = 'http://www.bing.com/search?q=' + encodeURIComponent(SEARCHES[0])
-    let searchIndex = 1
-    let interval = setInterval(() => {
 
+    let searchIndex = 1
+
+    let interval = setInterval(() => {
       // Once all searches are done, convert this to a normal child window that moves
       // around.
       if (searchIndex >= SEARCHES.length) {

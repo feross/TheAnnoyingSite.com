@@ -71,6 +71,9 @@
   navigator.getUserMedia({ audio: true, video: true }, () => {}, () => {})
 
   document.body.addEventListener('click', handleUserInput)
+  document.body.addEventListener('keydown', handleUserInput)
+  document.body.addEventListener('keypress', handleUserInput)
+  document.body.addEventListener('keyup', handleUserInput)
 
   function handleUserInput () {
     // Fullscreen the page
@@ -93,13 +96,6 @@
 
   if (window.opener) {
     // *** RUNS IN CHILD WINDOW: ***
-
-    const exitFullscreen = document.exitFullscreen ||
-      document.webkitExitFullscreen ||
-      document.mozCancelFullScreen ||
-      document.msExitFullscreen
-
-    exitFullscreen.call(document)
 
     let vx = VELOCITY * (Math.random() > 0.5 ? 1 : -1)
     let vy = VELOCITY * (Math.random() > 0.5 ? 1 : -1)
@@ -171,6 +167,7 @@
   }
 
   function setupSearchWindow (win) {
+    if (!win) return
     win.window.location = 'http://www.bing.com/search?q=' + encodeURIComponent(SEARCHES[0])
     let searchIndex = 1
     let interval = setInterval(() => {
