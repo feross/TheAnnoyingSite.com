@@ -74,13 +74,12 @@
   }
 
   // Intercept all shortcuts
+  document.body.addEventListener('mousedown', handleUserInput)
   document.body.addEventListener('click', handleUserInput)
+  document.body.addEventListener('mouseup', handleUserInput)
   document.body.addEventListener('keydown', handleUserInput)
   document.body.addEventListener('keypress', handleUserInput)
   document.body.addEventListener('keyup', handleUserInput)
-  document.body.addEventListener('touchstart', handleUserInput)
-  document.body.addEventListener('touchend', handleUserInput)
-  document.body.addEventListener('touchmove', handleUserInput)
 
   function handleUserInput (event) {
     focusWindows()
