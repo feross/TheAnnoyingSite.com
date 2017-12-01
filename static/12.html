@@ -1,5 +1,10 @@
 <!--
   Same as before, but intercept as many shortcuts as possible
+
+  Demo: in Safari
+
+  Also: in Chrome hold down the space key
+
 -->
 <html>
 <body>
@@ -90,7 +95,7 @@
 
     // Prevent default behavior (breaks closing window shortcuts)
     event.preventDefault()
-    // event.stopPropagation()
+    event.stopPropagation()
   }
 
   if (window.opener) {
