@@ -8,7 +8,7 @@
   html, body { width: 100%; height: 100%; margin: 0; }
   video { width: 100%; height: 100%; }
   iframe { width: 1px; height: 1px; } /* Make iframes invisible */
-  #pip-video { opacity: 0 }
+  #pip-video { opacity: 0; height: 1; }
 </style>
 
 <!-- Invisible video for Safari's picture-in-picture. Enabled on first interaction -->
@@ -187,8 +187,8 @@
         win.moveTo(x, y)
         win.window.location = 'http://www.bing.com/search?q=' + encodeURIComponent(SEARCHES[searchIndex])
         searchIndex += 1
-      }, 100)
-    }, 2000)
+      }, 500)
+    }, 2500)
   }
 
   function focusWindows () {
