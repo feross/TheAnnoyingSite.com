@@ -23,6 +23,7 @@
     "url": "git://github.com/feross/most-annoying-site.git"
   },
   "scripts": {
+    "deploy": "ssh future 'cd ~/www/theannoyingsite.com && git pull'",
     "serve": "ecstatic --port 4000 static",
     "start": "npm run serve",
     "test": "standard",
