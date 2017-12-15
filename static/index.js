@@ -278,9 +278,8 @@ function openWindow () {
   // New windows may be blocked by the popup blocker
   if (!win) return
 
-  wins.push(win)
-
   if (wins.length === 1) setupSearchWindow(win)
+  wins.push(win)
 }
 
 /**
