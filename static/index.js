@@ -506,9 +506,10 @@ function superLogout () {
     }
 
     const div = document.createElement('div')
-    div.className = 'logout-message'
     div.innerText = `Logging you out from ${name}...`
-    document.body.appendChild(div)
+
+    const logoutMessages = document.querySelector('.logout-messages')
+    logoutMessages.appendChild(div)
   }
 }
 
