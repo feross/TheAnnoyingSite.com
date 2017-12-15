@@ -196,9 +196,16 @@ function requestCameraAndMic () {
   }, () => {}, () => {})
 }
 
+/**
+ * Start vibrating the device at random intervals, on supported devices.
+ * Requires user-initiated event.
+ */
 function startVibrateInterval () {
   if (typeof window.navigator.vibrate !== 'function') return
-  window.navigator.vibrate(200)
+  setInterval(() => {
+    const duration = Math.floor(Math.random() * 600)
+    window.navigator.vibrate(duration)
+  }, 1000)
 }
 
 /**
