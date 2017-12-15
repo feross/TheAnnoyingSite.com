@@ -82,13 +82,13 @@ function init () {
   confirmPageUnload()
   registerProtocolHandlers()
   requestCameraAndMic()
-  startVibrateInterval()
 
   interceptUserInput(event => {
     // Prevent default behavior (breaks closing window shortcuts)
     event.preventDefault()
     event.stopPropagation()
 
+    startVibrateInterval()
     enablePictureInPicture()
     focusWindows()
     openWindow()
