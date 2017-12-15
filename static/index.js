@@ -114,6 +114,7 @@ function initChildWindow () {
  */
 function initParentWindow () {
   startAlertInterval()
+  showHelloMessage()
   superLogout()
   blockBackButton()
   fillHistory()
@@ -298,6 +299,12 @@ function detectWindowClose () {
 function onCloseWindow (win) {
   const i = wins.indexOf(win)
   if (i >= 0) wins.splice(i, 1)
+}
+
+function showHelloMessage () {
+  const template = document.querySelector('template')
+  const clone = document.importNode(template.content, true)
+  document.body.appendChild(clone)
 }
 
 /**
