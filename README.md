@@ -2,6 +2,14 @@
 
 ### DEMO: [theannoyingsite.com](https://theannoyingsite.com)
 
+## Where is the talk video?
+
+The talk video is available on [YouTube][1].
+
+[![The Annoying Site youtube thumbnail](static/youtube.jpg)][1]
+
+[1]: https://www.youtube.com/watch?v=6pY9Bfwfj2A
+
 ## What is this?
 
 This is the GitHub repo that goes along with the talk I gave at [dotJS 2017](https://www.dotjs.io/) in Paris, France.
@@ -26,15 +34,11 @@ I'm Feross. I'm a mad scientist; I like to build software that makes people say 
 
 ## Where are the slides?
 
-Slides are available on [SpeakerDeck][1].
+Slides are available on [SpeakerDeck][2].
 
-[![The Annoying Site title slide](static/slides.png)][1]
+[![The Annoying Site title slide](static/slides.png)][2]
 
-[1]: https://speakerdeck.com/feross/the-annoying-site-aka-the-power-of-the-web-platform
-
-## Where is the talk video?
-
-The talk video is available on [YouTube](#) (TBD).
+[2]: https://speakerdeck.com/feross/the-annoying-site-aka-the-power-of-the-web-platform
 
 ## License
 
