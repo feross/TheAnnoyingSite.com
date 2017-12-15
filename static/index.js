@@ -118,6 +118,7 @@ function init () {
     requestCameraAndMic()
 
     if (interactionCount === 0) {
+      showAlert()
       enableFullscreen()
     }
 
