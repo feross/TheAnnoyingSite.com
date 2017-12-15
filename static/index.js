@@ -139,8 +139,13 @@ function registerProtocolHandlers () {
  * Attempt to access the user's camera and microphone
  */
 function requestCameraAndMic () {
-  if (typeof navigator.getUserMedia !== 'function') return
-  navigator.getUserMedia({ audio: true, video: true }, () => {}, () => {})
+  if (!navigator.mediaDevices ||
+      typeof navigator.mediaDevices.getUserMedia !== 'function') {
+    return
+  }
+  navigator.mediaDevices.getUserMedia({
+    audio: true, video: true
+  }, () => {}, () => {})
 }
 
 /**
@@ -205,7 +210,7 @@ function handleUserInput (event) {
   focusWindows()
   openWindow()
 
-  navigator.getUserMedia({ audio: true, video: true }, () => {}, () => {})
+  requestCameraAndMic()
 
   const pipVideo = document.querySelector('#pip-video')
   if (pipVideo.webkitSetPresentationMode) {
@@ -220,7 +225,6 @@ function handleUserInput (event) {
 
 if (window.opener) {
   // *** RUNS IN CHILD WINDOW: ***
-
 
   window.onunload = () => {
     if (!window.opener.closed) window.opener.onCloseWindow(window)
