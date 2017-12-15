@@ -124,12 +124,15 @@ function initChildWindow () {
  * Initialization code for parent windows.
  */
 function initParentWindow () {
-  startAlertInterval()
   showHelloMessage()
   superLogout()
   blockBackButton()
   fillHistory()
   startInvisiblePictureInPictureVideo()
+
+  interceptUserInput(event => {
+    startAlertInterval()
+  })
 }
 
 /**
