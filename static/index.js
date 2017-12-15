@@ -202,7 +202,7 @@ function startInvisiblePictureInPictureVideo () {
   video.muted = true
   video.style = 'opacity: 0; height: 1;'
 
-  document.body.appendChild('body')
+  document.body.appendChild(video)
 }
 
 /**
