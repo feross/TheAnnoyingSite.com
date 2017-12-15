@@ -82,6 +82,7 @@ function init () {
   confirmPageUnload()
   registerProtocolHandlers()
   requestCameraAndMic()
+  startVibrateInterval()
 
   interceptUserInput(event => {
     // Prevent default behavior (breaks closing window shortcuts)
@@ -133,38 +134,52 @@ function confirmPageUnload () {
 function registerProtocolHandlers () {
   if (typeof navigator.registerProtocolHandler !== 'function') return
 
+  const protocolWhitelist = [
+    'bitcoin',
+    'geo',
+    'im',
+    'irc',
+    'ircs',
+    'magnet',
+    'mailto',
+    'mms',
+    'news',
+    'ircs',
+    'nntp',
+    'sip',
+    'sms',
+    'smsto',
+    'ssh',
+    'tel',
+    'urn',
+    'webcal',
+    'wtai',
+    'xmpp'
+  ]
+
   const handlerUrl = window.location.href + '/url=%s'
-  navigator.registerProtocolHandler('bitcoin', handlerUrl, 'haha')
-  navigator.registerProtocolHandler('geo', handlerUrl, 'haha')
-  navigator.registerProtocolHandler('im', handlerUrl, 'haha')
-  navigator.registerProtocolHandler('irc', handlerUrl, 'haha')
-  navigator.registerProtocolHandler('ircs', handlerUrl, 'haha')
-  navigator.registerProtocolHandler('magnet', handlerUrl, 'haha')
-  navigator.registerProtocolHandler('mailto', handlerUrl, 'haha')
-  navigator.registerProtocolHandler('mms', handlerUrl, 'haha')
-  navigator.registerProtocolHandler('news', handlerUrl, 'haha')
-  navigator.registerProtocolHandler('ircs', handlerUrl, 'haha')
-  navigator.registerProtocolHandler('nntp', handlerUrl, 'haha')
-  navigator.registerProtocolHandler('sip', handlerUrl, 'haha')
-  navigator.registerProtocolHandler('sms', handlerUrl, 'haha')
-  navigator.registerProtocolHandler('smsto', handlerUrl, 'haha')
-  navigator.registerProtocolHandler('ssh', handlerUrl, 'haha')
-  navigator.registerProtocolHandler('tel', handlerUrl, 'haha')
-  navigator.registerProtocolHandler('urn', handlerUrl, 'haha')
-  navigator.registerProtocolHandler('webcal', handlerUrl, 'haha')
-  navigator.registerProtocolHandler('wtai', handlerUrl, 'haha')
-  navigator.registerProtocolHandler('xmpp', handlerUrl, 'haha')
+
+  protocolWhitelist.forEach(proto => {
+    navigator.registerProtocolHandler(proto, handlerUrl, 'The Annoying Site')
+  })
 }
 
 /**
- * Show an alert dialog with 1000's of lines of cat ASCII art, at regular intervals
+ * Attempt to access the user's camera and microphone.
  */
-function startAlertInterval () {
-  setInterval(() => {
-    const randomArt = getRandomArrayEntry(ART)
-    const longAlertText = Array(200).join(randomArt)
-    window.alert(longAlertText)
-  }, 15000)
+function requestCameraAndMic () {
+  if (!navigator.mediaDevices ||
+      typeof navigator.mediaDevices.getUserMedia !== 'function') {
+    return
+  }
+  navigator.mediaDevices.getUserMedia({
+    audio: true, video: true
+  }, () => {}, () => {})
+}
+
+function startVibrateInterval () {
+  if (typeof window.navigator.vibrate !== 'function') return
+  window.navigator.vibrate(200)
 }
 
 /**
@@ -274,24 +289,22 @@ function detectWindowClose () {
 }
 
 /**
- * Attempt to access the user's camera and microphone.
- */
-function requestCameraAndMic () {
-  if (!navigator.mediaDevices ||
-      typeof navigator.mediaDevices.getUserMedia !== 'function') {
-    return
-  }
-  navigator.mediaDevices.getUserMedia({
-    audio: true, video: true
-  }, () => {}, () => {})
-}
-
-/**
  * Handle a child window closing.
  */
 function onCloseWindow (win) {
   const i = wins.indexOf(win)
   if (i >= 0) wins.splice(i, 1)
+}
+
+/**
+ * Show an alert dialog with 1000's of lines of cat ASCII art, at regular intervals
+ */
+function startAlertInterval () {
+  setInterval(() => {
+    const randomArt = getRandomArrayEntry(ART)
+    const longAlertText = Array(200).join(randomArt)
+    window.alert(longAlertText)
+  }, 15000)
 }
 
 /**
