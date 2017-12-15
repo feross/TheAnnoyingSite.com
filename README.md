@@ -1,4 +1,4 @@
-# [The Annoying Site](https://theannoyingsite.com)
+# [The Annoying Site](https://theannoyingsite.com) a.k.a. "The Power of the Web Platform"
 
 ### DEMO: [theannoyingsite.com](https://theannoyingsite.com)
 
