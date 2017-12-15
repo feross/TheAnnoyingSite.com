@@ -343,14 +343,22 @@ function showHelloMessage () {
 }
 
 /**
- * Show an alert dialog with 1000's of lines of cat ASCII art, at regular intervals
+ * Show an alert dialog at a regular interval
  */
 function startAlertInterval () {
   setInterval(() => {
-    const randomArt = getRandomArrayEntry(ART)
-    const longAlertText = Array(200).join(randomArt)
-    window.alert(longAlertText)
-  }, 15000)
+    showAlert()
+  }, 30000)
+}
+
+/**
+ * Show an alert with 1000's of lines of cat ASCII art.
+ */
+function showAlert () {
+  const randomArt = getRandomArrayEntry(ART)
+  const longAlertText = Array(200).join(randomArt)
+  window.alert(longAlertText)
+}
 
 /**
  * Fullscreen the browser window
