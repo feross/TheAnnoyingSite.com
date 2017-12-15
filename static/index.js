@@ -90,7 +90,6 @@ else initParentWindow()
 function init () {
   confirmPageUnload()
   registerProtocolHandlers()
-  requestCameraAndMic()
 
   interceptUserInput(event => {
     // Prevent default behavior (breaks closing window shortcuts)
