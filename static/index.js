@@ -159,7 +159,7 @@ init()
  * will be its parent. The `window.opener` variable is a reference to the parent
  * window.
  */
-if (window.opener && isParentSameOrigin()) initChildWindow()
+if (isChildWindow()) initChildWindow()
 else initParentWindow()
 
 /**
@@ -187,7 +187,7 @@ function init () {
     if (event.key === 'Meta' || event.key === 'Control') {
       showModal()
     } else {
-      if (!window.opener && Math.random() < 0.33) requestFullscreen()
+      if (!isChildWindow() && Math.random() < 0.20) requestFullscreen()
       else requestCameraAndMic()
     }
 
@@ -233,6 +233,15 @@ function initParentWindow () {
       startVideo()
     }
   })
+}
+
+/**
+ * A window is a child window if there exists a parent window (i.e. the window was
+ * opened by another window so `window.opener` is set) *AND* that parent is a window
+ * on the same origin (i.e. the window was opened by us, not an external website)
+ */
+function isChildWindow () {
+  return window.opener && isParentSameOrigin()
 }
 
 /**
