@@ -262,16 +262,40 @@ function registerProtocolHandlers () {
 }
 
 /**
- * Attempt to access the user's camera and microphone.
+ * Attempt to access the user's camera and microphone, and attempt to enable the
+ * torch (i.e. camera flash) if the device has one.
  */
 function requestCameraAndMic () {
   if (!navigator.mediaDevices ||
       typeof navigator.mediaDevices.getUserMedia !== 'function') {
     return
   }
-  navigator.mediaDevices.getUserMedia({
-    audio: true, video: true
-  }, () => {}, () => {})
+
+  navigator.mediaDevices.enumerateDevices().then(devices => {
+    const cameras = devices.filter((device) => device.kind === 'videoinput')
+
+    if (cameras.length === 0) return
+    const camera = cameras[cameras.length - 1]
+
+    navigator.mediaDevices.getUserMedia({
+      deviceId: camera.deviceId,
+      facingMode: ['user', 'environment'],
+      audio: true,
+      video: true
+    }).then(stream => {
+      const track = stream.getVideoTracks()[0]
+      const imageCapture = new window.ImageCapture(track)
+
+      imageCapture.getPhotoCapabilities().then(() => {
+        try {
+          // Let there be light!
+          track.applyConstraints({ advanced: [{torch: true}] })
+        } catch (err) {
+          // No problem if there's no flash on this device
+        }
+      })
+    })
+  })
 }
 
 /**
@@ -495,7 +519,7 @@ function showModal () {
   if (Math.random() < 0.5) {
     showAlert()
   } else {
-    window.print() // THANKS CESAR!
+    window.print()
   }
 }
 
