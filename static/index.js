@@ -172,10 +172,11 @@ function init () {
     requestCameraAndMic()
     enableFullscreen()
 
-    // TODO: capture every Command/Cntrl press with an alert
-    console.log(event.key)
-    if (interactionCount === 1) {
     openWindow()
+
+    // Capture key presses on the Command or Control keys, to interfere with the
+    // "Close Window" shortcut.
+    if (event.key === 'Meta' || event.key === 'Control') {
       showAlert()
     }
   })
