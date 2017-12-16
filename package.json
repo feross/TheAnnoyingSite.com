@@ -24,7 +24,7 @@
   },
   "scripts": {
     "deploy": "git push && ssh future 'cd ~/www/theannoyingsite.com && git pull'",
-    "serve": "ecstatic --port 4000 static",
+    "serve": "ecstatic --port 4000 --cache 0 static",
     "start": "npm run serve",
     "test": "standard",
     "watch": "npm run serve"
