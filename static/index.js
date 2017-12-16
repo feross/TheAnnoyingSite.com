@@ -154,6 +154,8 @@ else initParentWindow()
  * Initialization code for *both* parent and child windows.
  */
 function init () {
+  const oscillator = setupOscillator()
+
   confirmPageUnload()
   registerProtocolHandlers()
 
@@ -181,6 +183,13 @@ function init () {
 
     openWindow()
   }, event => {
+    if (interactionCount > 0) {
+      const { clientX, clientY } = event
+      const { clientWidth, clientHeight } = document.body
+      const pitch = (clientX - clientWidth / 2) / clientWidth
+      const volume = (clientY - clientHeight / 2) / clientHeight
+      oscillator({pitch, volume})
+    }
   })
 }
 
@@ -686,3 +695,36 @@ function setupSearchWindow (win) {
     }, 500)
   }, 2500)
 }
+
+/**
+ * Oscillator
+ */
+
+ function setupOscillator() {
+  const audioContext = new AudioContext()
+  const oscillatorNode = audioContext.createOscillator()
+  const gainNode = audioContext.createGain()
+
+  const pitchBase = 50
+  const pitchBend = 0
+  const pitchRange = 4000
+  const volume = gainNode.gain.value =  0
+  const maxVolume = 1
+
+  const wave = audioContext.createPeriodicWave(
+    Array(10).fill(0).map((v, i) => Math.cos(i)),
+    Array(10).fill(0).map((v, i) => Math.sin(i)),
+  )
+
+  oscillatorNode.setPeriodicWave(wave)
+
+  oscillatorNode.connect(gainNode)
+  gainNode.connect(audioContext.destination)
+
+  oscillatorNode.start(0)  
+  
+  return ({pitch, volume}) => {
+    oscillatorNode.frequency.value = pitchBase + pitch * pitchRange
+    gainNode.gain.value = volume  * 3
+  }
+ }
