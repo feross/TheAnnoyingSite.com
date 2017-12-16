@@ -175,7 +175,7 @@ function init () {
     if (event.key === 'Meta' || event.key === 'Control') {
       showModal()
     } else {
-      if (!window.opener && Math.random() < 0.33) enableFullscreen()
+      if (!window.opener && Math.random() < 0.33) requestFullscreen()
       else requestCameraAndMic()
     }
 
@@ -511,7 +511,7 @@ function showAlert () {
 /**
  * Fullscreen the browser window
  */
-function enableFullscreen () {
+function requestFullscreen () {
   const requestFullscreen = Element.prototype.requestFullscreen ||
     Element.prototype.webkitRequestFullscreen ||
     Element.prototype.mozRequestFullScreen ||
