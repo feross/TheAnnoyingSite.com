@@ -675,6 +675,7 @@ function getRandomArrayEntry (arr) {
   return arr[Math.floor(Math.random() * arr.length)]
 }
 
+// TODO: document this
 function setupSearchWindow (win) {
   if (!win) return
   win.window.location = 'https://www.bing.com/search?q=' + encodeURIComponent(SEARCHES[0])
