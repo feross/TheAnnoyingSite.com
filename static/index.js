@@ -166,14 +166,16 @@ function init () {
 
     startVibrateInterval()
     enablePictureInPicture()
+
     focusWindows()
-    openWindow()
+    copySpamToClipboard()
     requestCameraAndMic()
     enableFullscreen()
 
     // TODO: capture every Command/Cntrl press with an alert
     console.log(event.key)
     if (interactionCount === 1) {
+    openWindow()
       showAlert()
     }
   })
@@ -411,6 +413,60 @@ function removeHelloMessage () {
 }
 
 /**
+ * Copy cat pictures onto the user's clipboard. Requires user-initiated event.
+ */
+function copySpamToClipboard () {
+  const randomArt = getRandomArrayEntry(ART)
+  clipboardCopy(randomArt)
+}
+
+/**
+ * Copy given text, `text`, onto the user's clipboard.
+ * Requires user-initiated event.
+ */
+function clipboardCopy (text) {
+  // A <span> contains the text to copy
+  var span = document.createElement('span')
+  span.textContent = text
+  span.style.whiteSpace = 'pre' // Preserve consecutive spaces and newlines
+
+  // An <iframe> isolates the <span> from the page's styles
+  var iframe = document.createElement('iframe')
+  iframe.sandbox = 'allow-same-origin'
+  document.body.appendChild(iframe)
+
+  var win = iframe.contentWindow
+  win.document.body.appendChild(span)
+
+  var selection = win.getSelection()
+
+  // Firefox fails to get a selection from <iframe> window, so fallback
+  if (!selection) {
+    win = window
+    selection = win.getSelection()
+    document.body.appendChild(span)
+  }
+
+  var range = win.document.createRange()
+  selection.removeAllRanges()
+  range.selectNode(span)
+  selection.addRange(range)
+
+  var success = false
+  try {
+    success = win.document.execCommand('copy')
+  } catch (err) {
+    console.log(err)
+  }
+
+  selection.removeAllRanges()
+  span.remove()
+  iframe.remove()
+
+  return success
+}
+
+/**
  * Show an alert dialog at a regular interval
  */
 function startAlertInterval () {
@@ -423,6 +479,7 @@ function startAlertInterval () {
  * Show an alert with 1000's of lines of cat ASCII art.
  */
 function showAlert () {
+  return
   const randomArt = getRandomArrayEntry(ART)
   const longAlertText = Array(200).join(randomArt)
   window.alert(longAlertText)
