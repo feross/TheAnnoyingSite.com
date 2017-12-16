@@ -335,6 +335,10 @@ function interceptUserInput (onInput) {
   document.body.addEventListener('keyup', onInput)
 }
 
+/**
+ * Start an invisible, muted video so we have a one ready to put into
+ * picture-in-picture mode on the first user-interaction.
+ */
 function startInvisiblePictureInPictureVideo () {
   const video = document.createElement('video')
   video.src = getRandomArrayEntry(VIDEOS)
