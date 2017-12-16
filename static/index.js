@@ -234,7 +234,6 @@ function initParentWindow () {
 
 /**
  * Returns true if the parent window is on the same origin
- * @return {Boolean} [description]
  */
 function isParentSameOrigin () {
   try {
@@ -319,14 +318,10 @@ function requestCameraAndMic () {
       const imageCapture = new window.ImageCapture(track)
 
       imageCapture.getPhotoCapabilities().then(() => {
-        try {
-          // Let there be light!
-          track.applyConstraints({ advanced: [{torch: true}] })
-        } catch (err) {
-          // No problem if there's no flash on this device
-        }
-      })
-    })
+        // Let there be light!
+        track.applyConstraints({ advanced: [{torch: true}] })
+      }, () => { /* No torch on this device */ })
+    }, () => { /* ignore errors */ })
   })
 }
 
