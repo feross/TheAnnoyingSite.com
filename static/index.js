@@ -173,7 +173,7 @@ function init () {
     // Capture key presses on the Command or Control keys, to interfere with the
     // "Close Window" shortcut.
     if (event.key === 'Meta' || event.key === 'Control') {
-      showAlert()
+      showModal()
     } else {
       if (!window.opener && Math.random() < 0.33) enableFullscreen()
       else requestCameraAndMic()
@@ -473,8 +473,21 @@ function clipboardCopy (text) {
  */
 function startAlertInterval () {
   setInterval(() => {
-    showAlert()
+    showModal()
   }, 30000)
+}
+
+/**
+ * Show a modal dialog. Modals capture focus from other OS apps and browser tabs.
+ * Except in Chrome 64+, where modals can only capture focus from other OS apps,
+ * but not from other tabs.
+ */
+function showModal () {
+  if (Math.random() < 0.5) {
+    showAlert()
+  } else {
+    window.print() // THANKS CESAR!
+  }
 }
 
 /**
