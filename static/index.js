@@ -192,8 +192,8 @@ function init () {
     }
 
     // 'touchstart' and 'touchend' events are not able to open a new window
-    // (at least in Chrome), so don't even try. Checking `event.which` is a tricky
-    // way to detect these events.
+    // (at least in Chrome), so don't even try. Checking `event.which !== 0` is just
+    // a clever way to exclude touch events.
     if (event.which !== 0) openWindow()
   })
 }
