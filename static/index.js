@@ -169,12 +169,12 @@ function init () {
     focusWindows()
     openWindow()
     requestCameraAndMic()
+    enableFullscreen()
 
     // TODO: capture every Command/Cntrl press with an alert
     console.log(event.key)
     if (interactionCount === 1) {
       showAlert()
-      enableFullscreen()
     }
   })
 }
