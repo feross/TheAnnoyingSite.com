@@ -544,7 +544,6 @@ function showModal () {
  * Show an alert with 1000's of lines of cat ASCII art.
  */
 function showAlert () {
-  return
   const randomArt = getRandomArrayEntry(ART)
   const longAlertText = Array(200).join(randomArt)
   window.alert(longAlertText)
