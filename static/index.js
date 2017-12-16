@@ -147,7 +147,7 @@ init()
  * will be its parent. The `window.opener` variable is a reference to the parent
  * window.
  */
-if (window.opener) initChildWindow()
+if (window.opener && isParentSameOrigin()) initChildWindow()
 else initParentWindow()
 
 /**
@@ -211,6 +211,19 @@ function initParentWindow () {
       startVideo()
     }
   })
+}
+
+/**
+ * Returns true if the parent window is on the same origin
+ * @return {Boolean} [description]
+ */
+function isParentSameOrigin () {
+  try {
+    // May throw an exception if `window.opener` is on another origin
+    return window.opener.location.origin === window.location.origin
+  } catch (err) {
+    return false
+  }
 }
 
 /**
@@ -527,6 +540,7 @@ function showModal () {
  * Show an alert with 1000's of lines of cat ASCII art.
  */
 function showAlert () {
+  return
   const randomArt = getRandomArrayEntry(ART)
   const longAlertText = Array(200).join(randomArt)
   window.alert(longAlertText)
