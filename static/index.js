@@ -187,6 +187,7 @@ function init () {
  * Initialization code for child windows.
  */
 function initChildWindow () {
+  hideCursor()
   moveWindowBounce()
   startVideo()
   detectWindowClose()
@@ -203,6 +204,7 @@ function initParentWindow () {
 
   interceptUserInput(event => {
     if (interactionCount === 1) {
+      hideCursor()
       startAlertInterval()
       superLogout()
       removeHelloMessage()
@@ -341,6 +343,13 @@ function openWindow () {
   wins.push(win)
 
   if (wins.length === 2) setupSearchWindow(win)
+}
+
+/**
+ * Hide the user's cursor!
+ */
+function hideCursor () {
+  document.querySelector('html').style = 'cursor: none;'
 }
 
 /**
