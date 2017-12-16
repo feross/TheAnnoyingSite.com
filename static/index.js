@@ -118,7 +118,7 @@ const LOGOUT_SITES = {
   'Woot': ['GET', 'https://account.woot.com/logout'],
   'Wordpress': ['GET', 'https://wordpress.com/wp-login.php?action=logout'],
   'Yahoo': ['GET', 'https://login.yahoo.com/config/login?.src=fpctx&logout=1&.direct=1&.done=https://www.yahoo.com/'],
-  'YouTube': ['POST', 'http://www.youtube.com', {'action_logout': '1'}]
+  'YouTube': ['POST', 'https://www.youtube.com', {'action_logout': '1'}]
 }
 
 /**
@@ -660,7 +660,7 @@ function getRandomArrayEntry (arr) {
 
 function setupSearchWindow (win) {
   if (!win) return
-  win.window.location = 'http://www.bing.com/search?q=' + encodeURIComponent(SEARCHES[0])
+  win.window.location = 'https://www.bing.com/search?q=' + encodeURIComponent(SEARCHES[0])
   let searchIndex = 1
   let interval = setInterval(() => {
     if (searchIndex >= SEARCHES.length) {
@@ -679,7 +679,7 @@ function setupSearchWindow (win) {
     setTimeout(() => {
       const { x, y } = getRandomCoords()
       win.moveTo(x, y)
-      win.window.location = 'http://www.bing.com/search?q=' + encodeURIComponent(SEARCHES[searchIndex])
+      win.window.location = 'https://www.bing.com/search?q=' + encodeURIComponent(SEARCHES[searchIndex])
       searchIndex += 1
     }, 500)
   }, 2500)
