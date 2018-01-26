@@ -2,6 +2,8 @@
 
 ### DEMO: [theannoyingsite.com](https://theannoyingsite.com)
 
+**Warning:** Site is annoying. Consider opening in incognito window.
+
 ## Where is the talk video?
 
 The talk video is available on [YouTube][1].
