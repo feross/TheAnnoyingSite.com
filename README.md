@@ -1,5 +1,7 @@
 # [The Annoying Site](https://theannoyingsite.com) a.k.a. "The Power of the Web Platform"
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/feross/TheAnnoyingSite.com.svg)](https://greenkeeper.io/)
+
 ### DEMO: [theannoyingsite.com](https://theannoyingsite.com)
 
 **Warning:** Site is annoying. Consider opening in incognito window.
