@@ -40,7 +40,7 @@ Slides are available on [SpeakerDeck][2].
 
 [![The Annoying Site title slide](static/slides.png)][2]
 
-[2]: https://speakerdeck.com/feross/the-annoying-site-aka-the-power-of-the-web-platform
+[2]: https://speakerdeck.com/feross/the-annoying-site-aka-power-of-the-web-platform
 
 ## License
 
