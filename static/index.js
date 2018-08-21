@@ -258,7 +258,7 @@ function initParentWindow () {
  * Learn more here: https://www.jitbit.com/alexblog/256-targetblank---the-most-underestimated-vulnerability-ever/
  */
 function attemptToTakeoverReferrerWindow () {
-  if (isParentWindow && !isParentSameOrigin()) {
+  if (isParentWindow && window.opener && !isParentSameOrigin()) {
     window.opener.location = `${window.location.origin}/?child=true`
   }
 }
