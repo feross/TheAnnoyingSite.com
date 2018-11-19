@@ -1,4 +1,4 @@
-# [The Annoying Site](https://theannoyingsite.com) – The Power of the Web Platform
+[![The Annoying Site – The Power of the Web Platform](static/slides.png)](https://theannoyingsite.com)
 
 ### DEMO: [theannoyingsite.com](https://theannoyingsite.com)
 
@@ -37,8 +37,6 @@ I'm Feross. I'm a mad scientist; I like to build software that makes people say 
 ## Where are the slides?
 
 Slides are available on [SpeakerDeck][2].
-
-[![The Annoying Site title slide](static/slides.png)][2]
 
 [2]: https://speakerdeck.com/feross/the-annoying-site-aka-power-of-the-web-platform-v2
 
