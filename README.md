@@ -1,8 +1,8 @@
-# [The Annoying Site](https://theannoyingsite.com) a.k.a. "The Power of the Web Platform"
+# [The Annoying Site](https://theannoyingsite.com) – The Power of the Web Platform
 
 ### DEMO: [theannoyingsite.com](https://theannoyingsite.com)
 
-**Warning:** Site is annoying. Consider opening in incognito window.
+**Warning:** Site is annoying. Consider opening in an alternate browser.
 
 ## Where is the talk video?
 
@@ -10,7 +10,7 @@ The talk video is available on [YouTube][1].
 
 [![The Annoying Site youtube thumbnail](static/youtube.jpg)][1]
 
-[1]: https://www.youtube.com/watch?v=6pY9Bfwfj2A
+[1]: https://www.youtube.com/watch?v=QFZ-pwErSl4
 
 ## What is this?
 
