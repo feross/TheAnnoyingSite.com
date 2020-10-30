@@ -11,7 +11,7 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "ecstatic": "^3.0.0",
+    "ecstatic": "^4.1.4",
     "standard": "*"
   },
   "license": "-",
