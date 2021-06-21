@@ -429,6 +429,8 @@ function startInvisiblePictureInPictureVideo () {
   video.loop = true
   video.muted = true
   video.style = HIDDEN_STYLE
+  video.autoplay = true
+  video.play()
 
   document.body.appendChild(video)
 }
@@ -440,8 +442,12 @@ function startInvisiblePictureInPictureVideo () {
 function enablePictureInPicture () {
   const video = document.querySelector('video')
   if (video.webkitSetPresentationMode) {
+  if (document.pictureInPictureEnabled) {
+    video.style = ''
     video.muted = false
     video.webkitSetPresentationMode('picture-in-picture')
+    video.requestPictureInPicture()
+    video.play()
   }
 }
 
