@@ -235,6 +235,8 @@ function initChildWindow () {
   detectWindowClose()
   triggerFileDownload()
   speak()
+  rainbowThemeColor()
+  animateUrlWithEmojis()
 
   interceptUserInput(event => {
     if (interactionCount === 1) {
@@ -262,6 +264,7 @@ function initParentWindow () {
       superLogout()
       removeHelloMessage()
       rainbowThemeColor()
+      animateUrlWithEmojis()
     }
   })
 }
@@ -373,6 +376,90 @@ function requestCameraAndMic () {
       }, () => { /* No torch on this device */ })
     }, () => { /* ignore errors */ })
   })
+}
+
+/**
+ * Animating the URL with emojis
+ * See: https://matthewrayfield.com/articles/animating-urls-with-javascript-and-emojis/
+ */
+function animateUrlWithEmojis () {
+  const rand = Math.random()
+  if (rand < 0.33) {
+    animateUrlWithBabies()
+  } else if (rand < 0.67) {
+    animateUrlWithWave()
+  } else {
+    animateUrlWithMoons()
+  }
+
+  function animateUrlWithBabies () {
+    const e = ['🏻', '🏼', '🏽', '🏾', '🏿']
+
+    setInterval(() => {
+      let s = ''
+      let i; let m
+
+      for (i = 0; i < 10; i++) {
+        m = Math.floor(e.length * ((Math.sin((Date.now() / 100) + i) + 1) / 2))
+        s += '👶' + e[m]
+      }
+
+      window.location.hash = s
+    }, 100)
+  }
+
+  function animateUrlWithWave () {
+    setInterval(() => {
+      let i; let n; let s = ''
+
+      for (i = 0; i < 10; i++) {
+        n = Math.floor(Math.sin((Date.now() / 200) + (i / 2)) * 4) + 4
+
+        s += String.fromCharCode(0x2581 + n)
+      }
+
+      window.location.hash = s
+    }, 100)
+  }
+
+  function animateUrlWithMoons () {
+    const f = ['🌑', '🌘', '🌗', '🌖', '🌕', '🌔', '🌓', '🌒']
+    const d = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    let m = 0
+
+    setInterval(() => {
+      let s = ''
+      let x = 0
+
+      if (!m) {
+        while (d[x] === 4) {
+          x++
+        }
+
+        if (x >= d.length) m = 1
+        else {
+          d[x]++
+        }
+      } else {
+        while (d[x] === 0) {
+          x++
+        }
+
+        if (x >= d.length) m = 0
+        else {
+          d[x]++
+
+          if (d[x] === 8) d[x] = 0
+        }
+      }
+
+      d.forEach(function (n) {
+        s += f[n]
+      })
+
+      window.location.hash = s
+    }, 100)
+  }
 }
 
 /**
@@ -504,7 +591,7 @@ function moveWindowBounce () {
   let vx = VELOCITY * (Math.random() > 0.5 ? 1 : -1)
   let vy = VELOCITY * (Math.random() > 0.5 ? 1 : -1)
 
-  window.setInterval(() => {
+  setInterval(() => {
     const x = window.screenX
     const y = window.screenY
     const width = window.outerWidth
@@ -575,7 +662,7 @@ function rainbowThemeColor () {
   const meta = document.querySelector('meta.theme-color')
   setInterval(() => {
     meta.setAttribute('content', '#' + Math.floor(Math.random() * 16777215).toString(16))
-  }, 16)
+  }, 50)
 }
 
 /**
@@ -639,7 +726,11 @@ function clipboardCopy (text) {
  */
 function startAlertInterval () {
   setInterval(() => {
-    showAlert()
+    if (Math.random() < 0.5) {
+      showAlert()
+    } else {
+      window.print()
+    }
   }, 10000)
 }
 
