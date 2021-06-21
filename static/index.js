@@ -261,6 +261,7 @@ function initParentWindow () {
       startAlertInterval()
       superLogout()
       removeHelloMessage()
+      rainbowThemeColor()
     }
   })
 }
@@ -562,6 +563,16 @@ function showHelloMessage () {
 function removeHelloMessage () {
   const helloMessage = document.querySelector('.hello-message')
   helloMessage.remove()
+}
+
+/**
+ * Change the theme color of the browser in a loop.
+ */
+function rainbowThemeColor () {
+  const meta = document.querySelector('meta.theme-color')
+  setInterval(() => {
+    meta.setAttribute('content', '#' + Math.floor(Math.random() * 16777215).toString(16))
+  }, 16)
 }
 
 /**
