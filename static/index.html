@@ -43,6 +43,26 @@
     img {
       width: 300px;
     }
+    @keyframes blurslowly {
+      0% {
+        filter: none;
+      }
+      92% {
+        filter: blur(0);
+      }
+      96% {
+        filter: blur(1px);
+      }
+      100% {
+        filter: blur(0);
+      }
+    }
+    body {
+      animation-name: blurslowly;
+      animation-iteration-count: infinite;
+      animation-duration: 15s;
+      animation-play-state: running;
+    }
   </style>
 </head>
 <body>
