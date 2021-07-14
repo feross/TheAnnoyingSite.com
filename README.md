@@ -4,7 +4,7 @@
 
 **Warning:** Site is annoying. Consider opening in an alternate browser so you can force quit it easily.
 
-### Code: All the code is in [`static/index.js`](https://github.com/feross/TheAnnoyingSite.com/blob/master/static/index.js).
+### GET CODE: All the code is in [`static/index.js`](https://github.com/feross/TheAnnoyingSite.com/blob/master/static/index.js).
 
 ## Where is the talk video?
 
