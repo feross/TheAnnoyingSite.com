@@ -113,6 +113,7 @@ const LOGOUT_SITES = {
   DeviantART: ['POST', 'https://www.deviantart.com/users/logout'],
   DreamHost: ['GET', 'https://panel.dreamhost.com/index.cgi?Nscmd=Nlogout'],
   Dropbox: ['GET', 'https://www.dropbox.com/logout'],
+  Etsy: ['GET', 'https://www.etsy.com/uk/logout.php?ref=hdr_user_menu-signout'],
   eBay: ['GET', 'https://signin.ebay.com/ws/eBayISAPI.dll?SignIn'],
   Gandi: ['GET', 'https://www.gandi.net/login/out'],
   GitHub: ['GET', 'https://github.com/logout'],
