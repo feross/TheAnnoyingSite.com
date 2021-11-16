@@ -1102,7 +1102,7 @@ function getRandomArrayEntry (arr) {
 }
 
 /**
-* Opens a bing window with a random querery in the SEARCHES array, along with that spawn the window in a random location and move it around like the other child windows.
+* Opens a bing window with a random query in the SEARCHES array, along with that spawn the window in a random location and move it around like the other child windows.
 */
 function setupSearchWindow (win) {
   if (!win) return
