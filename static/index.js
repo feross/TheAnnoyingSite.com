@@ -1101,7 +1101,9 @@ function getRandomArrayEntry (arr) {
   return arr[Math.floor(Math.random() * arr.length)]
 }
 
-// TODO: document this
+/**
+* Opens a bing window with a random query in the SEARCHES array, along with that spawn the window in a random location and move it around like the other child windows.
+*/
 function setupSearchWindow (win) {
   if (!win) return
   win.window.location = 'https://www.bing.com/search?q=' + encodeURIComponent(SEARCHES[0])
