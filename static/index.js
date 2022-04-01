@@ -142,6 +142,7 @@ const LOGOUT_SITES = {
   Wordpress: ['GET', 'https://wordpress.com/wp-login.php?action=logout'],
   Yahoo: ['GET', 'https://login.yahoo.com/config/login?.src=fpctx&logout=1&.direct=1&.done=https://www.yahoo.com/'],
   YouTube: ['POST', 'https://www.youtube.com', { action_logout: '1' }]
+  Scratch: ['GET', 'https://scratch.mit.edu/abouta']
 }
 
 /**
