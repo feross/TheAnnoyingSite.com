@@ -141,7 +141,8 @@ const LOGOUT_SITES = {
   Woot: ['GET', 'https://account.woot.com/logout'],
   Wordpress: ['GET', 'https://wordpress.com/wp-login.php?action=logout'],
   Yahoo: ['GET', 'https://login.yahoo.com/config/login?.src=fpctx&logout=1&.direct=1&.done=https://www.yahoo.com/'],
-  YouTube: ['POST', 'https://www.youtube.com', { action_logout: '1' }]
+  YouTube: ['POST', 'https://www.youtube.com', { action_logout: '1' }],
+  VK: ["GET", "https://login.vk.com/?act=logout"]
 }
 
 /**
