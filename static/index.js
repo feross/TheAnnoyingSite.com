@@ -18,7 +18,8 @@ const SCREEN_HEIGHT = window.screen.availHeight
 const WIN_WIDTH = 480
 const WIN_HEIGHT = 260
 const VELOCITY = 15
-const MARGIN = 10
+const MARGIN = 20
+const TOP_MARGIN = 50
 const TICK_LENGTH = 50
 
 const HIDDEN_STYLE = 'position: fixed; width: 1px; height: 1px; overflow: hidden; top: -10px; left: -10px;'
@@ -825,7 +826,7 @@ function moveWindowBounce () {
 
     if (x < MARGIN) vx = Math.abs(vx)
     if (x + width > SCREEN_WIDTH - MARGIN) vx = -1 * Math.abs(vx)
-    if (y < MARGIN + 20) vy = Math.abs(vy)
+    if (y < TOP_MARGIN) vy = Math.abs(vy)
     if (y + height > SCREEN_HEIGHT - MARGIN) vy = -1 * Math.abs(vy)
 
     window.moveBy(vx, vy)
@@ -1089,8 +1090,8 @@ function fillHistory () {
 function getRandomCoords () {
   const x = MARGIN +
     Math.floor(Math.random() * (SCREEN_WIDTH - WIN_WIDTH - MARGIN))
-  const y = MARGIN +
-    Math.floor(Math.random() * (SCREEN_HEIGHT - WIN_HEIGHT - MARGIN))
+  const y = TOP_MARGIN +
+    Math.floor(Math.random() * (SCREEN_HEIGHT - WIN_HEIGHT - TOP_MARGIN))
   return { x, y }
 }
 
