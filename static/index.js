@@ -16,9 +16,9 @@
 const SCREEN_WIDTH = window.screen.availWidth
 const SCREEN_HEIGHT = window.screen.availHeight
 const WIN_WIDTH = 480
-const WIN_HEIGHT = 260
+const WIN_HEIGHT = 360
 const VELOCITY = 15
-const MARGIN = 20
+const MARGIN = 15
 const TOP_MARGIN = 50
 const TICK_LENGTH = 50
 
@@ -227,11 +227,7 @@ function init () {
     } else {
       requestPointerLock()
 
-      if (!window.ApplePaySession) {
-        // Don't request TouchID on every interaction in Safari since it blocks
-        // the event loop and stops windows from moving
-        requestWebauthnAttestation()
-      }
+      requestFullscreen()
       requestClipboardRead()
       requestMidiAccess()
       requestBluetoothAccess()
@@ -239,7 +235,11 @@ function init () {
       requestSerialAccess()
       requestHidAccess()
       requestCameraAndMic()
-      requestFullscreen()
+      if (Math.random() < 0.1) {
+        // Don't request TouchID on every interaction in Safari since it blocks
+        // the event loop and stops windows from moving
+        requestWebauthnAttestation()
+      }
     }
   })
 }
@@ -251,6 +251,7 @@ function initChildWindow () {
   registerProtocolHandlers()
   hideCursor()
   moveWindowBounce()
+  setupFollowWindow()
   startVideo()
   detectWindowClose()
   triggerFileDownload()
@@ -656,7 +657,7 @@ function startTheramin () {
 
   const oscillator = ({ pitch, volume }) => {
     oscillatorNode.frequency.value = pitchBase + pitch * pitchRange
-    gainNode.gain.value = volume * 3
+    gainNode.gain.value = volume * 0.5
   }
 
   document.body.addEventListener('mousemove', event => {
@@ -706,8 +707,8 @@ function requestWebauthnAttestation () {
         // User:
         user: {
           id: new Uint8Array(16),
-          name: 'john.p.smith@example.com',
-          displayName: 'John P. Smith'
+          name: 'YOU_ARE_HACKED@THEANNOYINGSITE.COM',
+          displayName: 'YOU ARE HACKED'
         },
 
         pubKeyCredParams: [{
@@ -831,6 +832,15 @@ function moveWindowBounce () {
 
     window.moveBy(vx, vy)
   }, TICK_LENGTH)
+}
+
+/**
+ * Follow the user's mouse
+ */
+function setupFollowWindow () {
+  document.addEventListener('mousemove', function (e) {
+    window.moveTo(e.screenX - (WIN_WIDTH / 2), e.screenY - (WIN_HEIGHT / 2))
+  })
 }
 
 /**
@@ -964,7 +974,7 @@ function startAlertInterval () {
     } else {
       window.print()
     }
-  }, 30000)
+  }, 120_000)
 }
 
 /**
@@ -1105,15 +1115,12 @@ function getRandomArrayEntry (arr) {
 // TODO: document this
 function setupSearchWindow (win) {
   if (!win) return
+  const { x, y } = getRandomCoords()
+  win.moveTo(x, y)
+  win.resizeTo(WIN_WIDTH * 2, WIN_HEIGHT * 2)
   win.window.location = 'https://www.bing.com/search?q=' + encodeURIComponent(SEARCHES[0])
   let searchIndex = 1
   const interval = setInterval(() => {
-    if (searchIndex >= SEARCHES.length) {
-      clearInterval(interval)
-      win.window.location = window.location.pathname
-      return
-    }
-
     if (win.closed) {
       clearInterval(interval)
       onCloseWindow(win)
@@ -1122,10 +1129,41 @@ function setupSearchWindow (win) {
 
     win.window.location = window.location.pathname
     setTimeout(() => {
+      win.resizeTo(WIN_WIDTH, WIN_HEIGHT)
+    }, 500)
+    setTimeout(() => {
       const { x, y } = getRandomCoords()
       win.moveTo(x, y)
+      win.resizeTo(WIN_WIDTH * 2, WIN_HEIGHT * 2)
       win.window.location = 'https://www.bing.com/search?q=' + encodeURIComponent(SEARCHES[searchIndex])
+
       searchIndex += 1
-    }, 500)
-  }, 2500)
+      if (searchIndex >= SEARCHES.length) {
+        searchIndex = 0
+      }
+    }, 1000)
+  }, 3000)
+}
+
+function detectBrowser () {
+  const userAgent = navigator.userAgent
+  if (/samsungbrowser\//i.test(userAgent)) {
+    return 'samsung'
+  } else if (/edg\//i.test(userAgent)) {
+    return 'edge'
+  } else if (/edga\//i.test(userAgent)) {
+    return 'edge'
+  } else if (/opt\//i.test(userAgent)) {
+    // Opera iOS
+    return 'opera'
+  } else if (/opr\//i.test(userAgent)) {
+    // Opera Android
+    return 'opera'
+  } else if (/chrome\//i.test(userAgent)) {
+    return 'chrome'
+  } else if (/safari\//i.test(userAgent)) {
+    return 'safari'
+  } else if (/firefox\//i.test(userAgent)) {
+    return 'firefox'
+  }
 }
