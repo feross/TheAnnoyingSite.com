@@ -1167,3 +1167,8 @@ function detectBrowser () {
     return 'firefox'
   }
 }
+
+// make sure the favicon is never cached
+const link = document.createElement('link')
+link.rel = 'shortcut icon'
+link.href = '/favicon.png?' + Date.now()
