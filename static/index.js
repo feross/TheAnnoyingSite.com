@@ -215,6 +215,10 @@ function init () {
     speak()
     startTheramin()
 
+        if (navigator.wakeLock) {
+               navigator.wakeLock.request('screen').catch(() => {})
+        }
+
     // Capture key presses on the Command or Control keys, to interfere with the
     // "Close Window" shortcut.
     if (event.key === 'Meta' || event.key === 'Control') {
